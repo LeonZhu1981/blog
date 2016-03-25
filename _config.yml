@@ -1,0 +1,123 @@
+# Hexo Configuration
+## Docs: http://hexo.io/docs/configuration.html
+## Source: https://github.com/hexojs/hexo/
+
+# Site
+title: zhuxiaodong's blog
+subtitle: fmt.Println("Hello 久久 and 长长")
+description: fmt.Println("Hello 久久 and 长长")
+author: leon.x.zhu
+# language: zh-Hans
+language: zh-Hans
+email: leon.x.zhu@gmail.com
+timezone: 
+
+# URL
+## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
+url: http://www.zhuxiaodong.net/
+root: /
+permalink: :year/:title/   # :year/:month/:day/:title/
+permalink_defaults:
+
+# Directory
+source_dir: source
+public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: :lang
+skip_render:
+
+# Writing
+new_post_name: :title.md # File name of new posts
+default_layout: post
+titlecase: false # Transform title into titlecase
+external_link: true # Open external links in new tab
+filename_case: 0
+render_drafts: false
+post_asset_folder: false
+relative_link: false
+future: true
+highlight:
+  enable: true
+  line_number: true
+  auto_detect: true
+  tab_replace:
+
+# Category & Tag
+default_category: uncategorized
+category_map:
+tag_map:
+
+# Date / Time format
+## Hexo uses Moment.js to parse and display date
+## You can customize the date format as defined in
+## http://momentjs.com/docs/#/displaying/format/
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
+
+# Pagination
+## Set per_page to 0 to disable pagination
+per_page: 10
+pagination_dir: page
+
+# Extensions
+## Plugins: http://hexo.io/plugins/
+## Themes: http://hexo.io/themes/
+theme: next
+plugins:
+- hexo-generator-sitemap
+- hexo-generator-baidu-sitemap
+- hexo-generator-feed
+- hexo-renderer-markdown-it
+- hexo-qiniu-sync
+
+markdown:
+  render:
+    html: true
+    xhtmlOut: false
+    breaks: true
+    linkify: true
+    typographer: true
+    quotes: '“”‘’'
+  plugins:
+    - markdown-it-footnote
+    - markdown-it-sup
+    - markdown-it-sub
+    - markdown-it-abbr
+  anchors:
+    level: 2
+    collisionSuffix: 'v'
+    permalink: true
+    permalinkClass: header-anchor
+    permalinkSymbol: ¶
+
+baidusitemap:
+    path: baidusitemap.xml
+
+qiniu:
+  offline: false
+  sync: true
+  bucket: ileon
+  access_key: UALWeExCY9P9sfmmITCxEyPZ5eryCFLHwVQ9GEMZ
+  secret_key: DdmfxARdFO1rkgJxx1-mq5EaRuQP3V5iA7lixorw
+  dirPrefix: blog/static/
+  urlPrefix: http://static.zhuxiaodong.net/blog/static
+  local_dir: /Users/leonzhu/work/private/blog/public/static/
+  update_exist: true
+  image: 
+    folder: images
+    extend: 
+  js:
+    folder: js
+  css:
+    folder: css
+
+# Deployment
+## Docs: http://hexo.io/docs/deployment.html
+deploy:
+deploy:
+- type: git
+  repo: git@github.com:LeonZhu1981/LeonZhu1981.github.io.git
+  branch: master
