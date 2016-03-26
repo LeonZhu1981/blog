@@ -39,22 +39,20 @@ tags:
 ---
 **缓存的目的/作用**: ARP维护一个高速缓存，其中包含经常访问（比如网关地址）或最近访问的机器的IP地址到物理地址的映射。这样就避免了重复的ARP请求，提高了发送数据包的速度。
 
-**linux下查看/修改ARP高速缓存**:
-
-**查看**:
-···
+**linux下查看ARP缓存**:
+```
 sudo arp -a
-···
+```
 ![linux下查看ARP缓存](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/arp-a.png)
 * 上述该命令是在我的linux VM上执行.
 * 第一行是我的mac os x的IP(10.211.55.2)地址与mac address(00:1c:42:00:00:08), 可以看到, 这个映射关系是被缓存了的.
 * 第二行是我的windows 7机器的IP(10.211.55.3)地址与mac address(incomplete), 可以看到, 这个映射关系目前还没有被缓存.
 * 第三行是网关IP与mac address的映射.
 
-**修改/删除**:
+**linux下修改/删除ARP缓存**:
 ```
 sudo arp -d 10.211.55.3 #删除
-sudo arp -s 10.211.55.3 00:1c:42:d3:07:ec  #手动添加
+sudo arp -s 10.211.55.3 00:1c:42:d3:07:ec  #手动添加或修改
 ```
 
 使用-s手动添加的ARP cache, 会标识为PERM.
