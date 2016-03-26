@@ -1,6 +1,9 @@
 title: Cmd Markdown 简明语法手册
 date: 2015-12-21 09:08:06
-tags: markdown cmd-markdown
+categories: programming
+tags: 
+- markdown
+- cmd-markdown
 photos:
 - http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg
 ---
@@ -37,7 +40,7 @@ photos:
 示例：
 
 这是去往 [本人博客](http://ghosertblog.github.com) 的链接。
-
+  
 ### 4. 无序列表
 
 使用 *，+，- 表示无序列表。

@@ -116,8 +116,19 @@ qiniu:
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
+#deploy:
+#deploy:
+#- type: git
+  #repo: https://git.coding.net/leonzhu1981/blog.git
+#  repo: git@github.com:LeonZhu1981/LeonZhu1981.github.io.git
+#  branch: master
+
 deploy:
-deploy:
-- type: git
-  repo: git@github.com:LeonZhu1981/LeonZhu1981.github.io.git
-  branch: master
+  type: rsync
+  host: 120.24.36.47
+  user: root
+  root: /var/www/blog/
+  port: 22
+  delete: true
+  verbose: true
+  ignore_errors: false

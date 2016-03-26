@@ -1,6 +1,9 @@
 title: 高性能Linux服务器编程-Part 1-TCP/IP协议概述.
 date: 2016-03-25 16:53:03
-tags: linux, tcp/ip
+categories: programming
+tags: 
+- linux 
+- tcp/ip
 ---
 ## 关于本系列文章
 ---
@@ -32,7 +35,7 @@ What is RFC?
 
 * [中文](http://man.chinaunix.net/develop/rfc/default.htm)
 * [英文](https://www.ietf.org/rfc.html)
-
+  
 
 ## TCP/IP协议族体系结构以及主要协议
 ---
