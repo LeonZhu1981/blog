@@ -40,7 +40,7 @@ photos:
 示例：
 
 这是去往 [本人博客](http://ghosertblog.github.com) 的链接。
-  
+<!--more-->  
 ### 4. 无序列表
 
 使用 *，+，- 表示无序列表。

@@ -6,6 +6,7 @@ tags:
 - network 
 - tcp/ip
 - 高性能Linux服务器编程
+toc: true
 ---
 ## 关于本系列文章
 ---
@@ -29,7 +30,7 @@ tags:
 这个系列的文章是我阅读[Linux高性能服务器编程](http://book.douban.com/subject/24722611/)的读书笔记, 并对需要深入学习的部分加入了一些自己的理解和认识, 以及额外的参考资料. 如果你认为本系列对你的学习能够有所帮助, 希望能够购买原版图书. 
 
 ## RFC文档
----
+
 What is RFC?
 > A Request for Comments (RFC) is a formal document from the Internet Engineering Task Force ( IETF ) that is the result of committee drafting and subsequent review by interested parties. Some RFCs are informational in nature.
 
@@ -50,9 +51,9 @@ What is RFC?
 
 **NOTE: 链路层, 网络层, 传输层由于需要稳定而可靠的服务, 都在内核空间当中实现. 只有应用层是交给用户空间实现.**
 ![tcp/ip协议体系结构图](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/tcp-ip-overview-1.png)
-
+<!--more-->
 ### 数据链路层
----
+
 **定义/职责**: 实现了网卡接口和网络驱动程序, 以处理数据在物理媒介(例如, 以太网和令牌环网络)上的传输. 定义了统一的接口, 屏蔽了物理层传输的细节.
 
 **常用协议**: ARP(Address Resolve Protocol) and RARP(Reverse Address Resolve Protocol), 实现了IP地址到物理地址(通常是mac地址, 以太网, 令牌环, 802.11无线网络都使用mac地址作为物理地址.)之间的转换.
