@@ -9,15 +9,17 @@ tags:
 
 ## 关于本系列文章
 ---
-[**传送门**](http://www.zhuxiaodong.net/2016/high-performance-linux-server-programming-part1-tcp-ip-summarize/#关于本系列文章)
+[开篇里的说明](http://www.zhuxiaodong.net/2016/high-performance-linux-server-programming-part1-tcp-ip-summarize/#关于本系列文章)
 
 ## 网络测试环境搭建和说明
+---
 * mac os x上使用parallels desktop搭建虚拟机.
 * mac os x, IP: 10.211.55.2
 * linux centos 7 VM, IP: 10.211.55.4
 * windows 7 VM, IP: 10.211.55.3
 
 ## 概述
+---
 **定义/职责**: ARP协议能实现**任意网络层地址到任意物理地址的转换**. 这里重点讨论的是: **将网络层的IP Datagram Header中的IP Address, 解析为物理链路层frame Header中的mac address.**
 
 **原理**: 主机向自己所在的网络**广播**一个ARP请求，该请求包含目标机器的网络地址。此网络上的**其他机器都将收到这个请求**，但只有被请求的**目标机器会回应一个ARP应答**，其中包含自己的物理地址.

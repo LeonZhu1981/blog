@@ -3,9 +3,9 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: zhuxiaodong's blog
+title: 或许未必不过
 subtitle: fmt.Println("Hello 久久 and 长长")
-description: fmt.Println("Hello 久久 and 长长")
+description: lz14
 author: leon.x.zhu
 # language: zh-Hans
 language: zh-Hans
@@ -133,3 +133,14 @@ deploy:
   delete: true
   verbose: true
   ignore_errors: false
+
+index_generator:
+  per_page: 10
+
+archive_generator:
+  per_page: 20
+  yearly: true
+  monthly: true
+
+tag_generator:
+  per_page: 10
