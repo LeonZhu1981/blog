@@ -79,7 +79,7 @@ markdown:
     html: true
     xhtmlOut: false
     breaks: true
-    linkify: true
+    linkify: false
     typographer: true
     quotes: '“”‘’'
   plugins:
