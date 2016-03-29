@@ -92,7 +92,7 @@ markdown:
     collisionSuffix: 'v'
     permalink: true
     permalinkClass: header-anchor
-    permalinkSymbol: ¶
+    #permalinkSymbol: ¶
 
 baidusitemap:
     path: baidusitemap.xml

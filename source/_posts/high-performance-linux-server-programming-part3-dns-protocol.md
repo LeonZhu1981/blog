@@ -197,3 +197,9 @@ sudo tcpdump -i en0 -nt port domain
 
 * 第一行: 由local(192.168.11.2:55411端口)向我们配置的阿里public DNS server(223.5.5.5:53)发起DNS QUERY请求, 57184是DNS查询报文的值, "+"表示递归查询, "A?"表示使用A类型的查询方式, 31表示查询报文的长度(byte).
 * 第二行: 3/0/0表示3个回答记录, 0个授权资源记录, 0个额外信息记录. 其余部分与我们在前面介绍的部分相同.
+
+## More Information about DNS
+---
+[参考digitalocean的这个系列](https://www.digitalocean.com/community/tutorials/an-introduction-to-dns-terminology-components-and-concepts)
+![digitalocean-dns-series](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/digitalocean-dns-series.jpg)
+
