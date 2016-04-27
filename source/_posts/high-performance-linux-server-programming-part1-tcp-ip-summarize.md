@@ -50,7 +50,7 @@ What is RFC?
 * 应用层
 
 **NOTE: 链路层, 网络层, 传输层由于需要稳定而可靠的服务, 都在内核空间当中实现. 只有应用层是交给用户空间实现.**
-![tcp/ip协议体系结构图](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/tcp-ip-overview-1.png)
+![tcp/ip协议体系结构图](http://static.zhuxiaodong.net/blog/static/images/tcp-ip-overview-1.png)
 <!--more-->
 ### 数据链路层
 
@@ -75,7 +75,7 @@ What is RFC?
 * ICMP(Internet Control Message Protocol)协议: 它是IP协议的重要补充,主要用于**检测网络连接**.
 
 下图为ICMP报文格式:
-![ICMP报文格式](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/icmp-datagram.png)
+![ICMP报文格式](http://static.zhuxiaodong.net/blog/static/images/icmp-datagram.png)
 
 * 8 bit类型字段: 标识报文类型. 
   * 差错报文: 主要用于回应网络错误. 比如目标不可达(值为3), 目标重定向(值为5)
@@ -86,7 +86,7 @@ What is RFC?
 ### 传输层
 ---
 **定义/职责**: 传输层为两台主机上的应用程序提供端到端(end to end)的通信.与网络层使用的逐跳通信方式不同,传输层只关心通信的起始端和目的端,而不在乎数据包的中转过程.
-![传输层与网络层的区别](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/diff-network-transmission.png)
+![传输层与网络层的区别](http://static.zhuxiaodong.net/blog/static/images/diff-network-transmission.png)
 
 **传输层的任务**: 为应用程序封装了一条端到端的逻辑通信链路,它负责数据的收发、链路的超时重连等.
 
@@ -126,23 +126,23 @@ What is RFC?
 ```
 sudo vi /etc/services
 ```
-![/etc/services](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/etc-services.png)
+![/etc/services](http://static.zhuxiaodong.net/blog/static/images/etc-services.png)
 
 ### 封装(**Encapsulation**)
 ---
 **问题:** 上层协议是如何使用下层协议提供的服务?如何将应用层的数据转换为frame并在物理链路层传输?
 
 **定义/职责:** 应用程序数据在发送到物理网络上之前,将沿着协议栈**从上往下依次传递**.**每层协议都将在上层数据的基础上加上自己的头部信息(有时还包括尾部信息)**,以实现该层的功能,这个过程就称为封装.
-![封装](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/encapsulation.png)
+![封装](http://static.zhuxiaodong.net/blog/static/images/encapsulation.png)
 
 **封装步骤:**
 1. 经过TCP封装后的数据称为TCP报文段(**TCP message segment**),或者简称TCP段.TCP协议为通信双方维持一个连接,并且在内核中存储相关数据.这部分数据中的TCP头部信息和TCP内核缓冲区发送缓冲区或接收缓冲区)数据一起构成了TCP报文段.当发送端应用程序使用send(或者write)函数向一个TCP连接写入数据时,内核中的TCP模块首先把这些数据复制到与该连接对应的TCP内核发送缓冲区中,然后TCP模块调用IP模块提供的服务,传递的参数包括TCP头部信息和TCP发送缓冲区中的数据,即TCP报文段.
-![tcp封装过程](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/tcp-ip-encapsulation.png)
+![tcp封装过程](http://static.zhuxiaodong.net/blog/static/images/tcp-ip-encapsulation.png)
 2. 如果是UDP协议, 经过UDP封装后的数据称为UDP数据报(**UDP Datagram**).不同的是,**UDP无须为应用层数据保存副本**,因为它提供的服务是不可靠的.**当一个UDP数据报被成功发送之后,UDP内核缓冲区中的该数据报就被丢弃了.**如果应用程序检测到该数据报未能被接收端正确接收,并打算重发这个数据报,则应用程序需要重新从用户空间将该数据报拷贝到UDP内核发送缓冲区中.
 3. 经过IP封装后的数据称为IP数据报(**IP Datagram**).IP数据报也包括头部信息和数据部分,其中数据部分就是一个TCP报文段、UDP数据报或者ICMP报文.
 4. 经过数据链路层封装的数据称为帧(**frame**).传输媒介不同,帧的类型也不同.比如,以太网上传输的是以太网帧(Ethernet frame),而令牌环网络上传输的则是令牌环帧(token ring frame).
 5. 以Ethernet frame为例:
-![以太网封装过程](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/ethernet-encapsulation.png)以太网帧使用6字节的目的物理地址和6字节的源物理地址来表示通信的双方.4字节CRC字段对帧的其他部分提供循环冗余校验.帧的最大传输单元(**Max Transmit Unit,MTU**),即帧最多能携带多少上层协议数据(比如IP数据报),通常受到网络类型的限制.**以太网帧的MTU是1500字节.正因为如此,过长的IP数据报可能需要被分片(fragment)传输.**
+![以太网封装过程](http://static.zhuxiaodong.net/blog/static/images/ethernet-encapsulation.png)以太网帧使用6字节的目的物理地址和6字节的源物理地址来表示通信的双方.4字节CRC字段对帧的其他部分提供循环冗余校验.帧的最大传输单元(**Max Transmit Unit,MTU**),即帧最多能携带多少上层协议数据(比如IP数据报),通常受到网络类型的限制.**以太网帧的MTU是1500字节.正因为如此,过长的IP数据报可能需要被分片(fragment)传输.**
 6. 上述3个步骤, 完成了最终的封装过程. **frame才是最终在物理链路层上传输的二进制字节方式.**
 
 ### 分用(**Demultiplexing**)
@@ -150,7 +150,7 @@ sudo vi /etc/services
 **问题:** 当frame通过物理链路层到达目的主机之后, 如何将frame进行分解并传递给上层直至应用程序？
 
 **定义/职责:** 当帧到达目的主机时,将沿着协议栈**自底向上依次传递**.各层协议依次处理帧中本层负责的头部数据,以获取所需的信息,并最终将处理后的帧交给目标应用程序.这个过程称为分用(**demultiplexing**).分用是依靠头部信息中的类型字段实现的.标准文档RFC 1700定义了所有标识上层协议的类型字段以及每个上层协议对应的数值.
-![分用](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/demultiplexing.png)
+![分用](http://static.zhuxiaodong.net/blog/static/images/demultiplexing.png)
 
 **分用步骤:**
 1. 在物理链路层传递给**网卡驱动程序**, 将frame分解为网络层可以理解的数据格式(满足某种协议规范), 包括: IP, ARP, RARP. 根据frame当中的Type字段来标识出对应的协议类型. 比如: Eternet frame中, 包括2字节类型字段. 具体的值包括:

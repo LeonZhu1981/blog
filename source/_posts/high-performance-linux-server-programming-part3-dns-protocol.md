@@ -27,12 +27,12 @@ tags:
 
 ## DNS查询和应答报文详解
 ---
-![dns数据报格式](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/dns-datagram.png)
+![dns数据报格式](http://static.zhuxiaodong.net/blog/static/images/dns-datagram.png)
 
 **DNS header**:
 * **16 bit标识字段**: 用于标识**一组**DNS查询和应答, 以区分哪一个DNS应答是哪一个DNS查询的回应.
 * **16 bit标记字段**: 用于协商具体的通信方式和反馈通信状态, 具体参考下图:
-![dns标识字段](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/dns-identity.png)
+![dns标识字段](http://static.zhuxiaodong.net/blog/static/images/dns-identity.png)
   * QR: 0表示查询, 1标识应答.
   * opcode: 定义查询和应答的类型, 0--标准查询, 1--反向查询(通过IP获得主机名), 2--请求服务器状态.
   * AA: 占1位, 授权应答(Authoritative Answer) – 这个比特位在应答的时候才有意义, 指出给出应答的服务器是查询域名的授权解析服务器.
@@ -58,17 +58,17 @@ tags:
 **DNS body**:
 
 * **查询问题字段的格式**:
-![查询问题字段的格式](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/dns-q-datagram.png)
+![查询问题字段的格式](http://static.zhuxiaodong.net/blog/static/images/dns-q-datagram.png)
   * 查询名以一定的格式封装了要查询的主机域名.
   * 16位查询类型: A(A记录)--值为1, 表示类型为IP地址; CNAME--值为5, 表示类型为别名; PTR--值为12, 表示反向查询.
   * 16位查询类: 通常值为1, 表示获取IP地址.
 
 * 应答字段/授权字段/额外信息字段都使用资源记录(Resource Record, RR)格式, RR格式如下图:
-![dns资源记录格式](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/dns-rr-datagram.png)
+![dns资源记录格式](http://static.zhuxiaodong.net/blog/static/images/dns-rr-datagram.png)
   * 32位域名是该记录中与资源对应的名字, 其格式和查询问题中的查询名字段相同.
   * 16位类型和16位类字段的含义也与DNS查询问题的对应字段相同.
   * 32位生存时间表示该查询记录结果可被本地客户端程序缓存多长时间, 单位是秒. (下图是DNSPod中的ttl设置)
-  ![dnspod](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/dnspod-ttl.png)
+  ![dnspod](http://static.zhuxiaodong.net/blog/static/images/dnspod-ttl.png)
   * 16位资源数据长度字段和资源数据字段的内容取决于类型字段. 对A记录而言, 资源数据是32位的IPv4地址, 资源数据长度则为4(以字节为单位). 对于CNAME, 或者MX类型而言, 资源数据应该是对应的值. (这就是为什么资源数据的长度是可变的原因.)
 
 * Related RFC: RFC 1035, RFC 1886.
@@ -83,7 +83,7 @@ tags:
 ```
 cat /etc/resolv.conf
 ```
-![dns-resolv](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/dns-resolv1.png)
+![dns-resolv](http://static.zhuxiaodong.net/blog/static/images/dns-resolv1.png)
 
 当然, 我们可以手动来设置一些公共dns服务器, 例如google的8.8.8.8和114dns 114.114.114.114. 这里我们使用**阿里**([看上去很专业](http://www.alidns.com/))和**dnspod**([貌似被腾讯收购了?](https://www.dnspod.cn/Products/Public.DNS))的public DNS+ server来做下实验.
 
@@ -108,7 +108,7 @@ ref: [here](https://www.quora.com/Bash-shell/What-are-the-differences-between-ho
 ```
 dig www.baidu.cn
 ```
-![dns-baidu](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/dig-baidu.jpg)
+![dns-baidu](http://static.zhuxiaodong.net/blog/static/images/dig-baidu.jpg)
 上述图例中比较重要的部分:
 >;; QUESTION SECTION:
 >;www.baidu.com.			IN	A
@@ -140,20 +140,20 @@ ref:
 > However, by design, your local machine will cache its DNS resolution, and will usually use the same IP address over and over, until it expires (Time To Live, TTL).
 
 **Q2**: 那么缓存的时间到底是多久了? 继续google之. oh, 原来这里的ANSWER SECTION里面的246就是TTL.
-![dns-ttl1](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/dig-ttl1.jpg)
+![dns-ttl1](http://static.zhuxiaodong.net/blog/static/images/dig-ttl1.jpg)
 
 dig命令是显示当前的ttl时间, 每隔1秒钟会减1, 因此每次执行dig命令时, 显示是当前的缓存时间, 下图是在上一次执行dig之后大概66秒(**246 - 180 = 66**)之后的图例: 
-![dns-ttl2](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/dig-ttl2.jpg)
+![dns-ttl2](http://static.zhuxiaodong.net/blog/static/images/dig-ttl2.jpg)
 
 **Q3**: 有没有办法trace到绝对的ttl时间了? 答案是+trace命令参数: 
 ```
 dig +trace +nocmd +noall +answer +ttlid www.baidu.com
 ```
-![dns-ttl3](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/dig-ttl3.jpg)
+![dns-ttl3](http://static.zhuxiaodong.net/blog/static/images/dig-ttl3.jpg)
 
 **Q4**: 如果我换成DNSPod的DNS服务器, www.baidu.com的ttl时间是一致的么?
-![dns-ttl4](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/dig-ttl4.jpg)
-wow, 原来是一样的, 都是1200, 参考我们在[这里](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/dnspod-ttl.png)提到的是一致的.
+![dns-ttl4](http://static.zhuxiaodong.net/blog/static/images/dig-ttl4.jpg)
+wow, 原来是一样的, 都是1200, 参考我们在[这里](http://static.zhuxiaodong.net/blog/static/images/dnspod-ttl.png)提到的是一致的.
 
 **Q5**: 假设域名对应的IP变化了, 我们想要ttl失效, 该怎么办?
 * mac os x: [more information](https://support.apple.com/en-us/HT202516)
@@ -201,5 +201,5 @@ sudo tcpdump -i en0 -nt port domain
 ## More Information about DNS
 ---
 [参考digitalocean的这个系列](https://www.digitalocean.com/community/tutorials/an-introduction-to-dns-terminology-components-and-concepts)
-![digitalocean-dns-series](http://7i7i6p.com1.z0.glb.clouddn.com/blog/static/images/digitalocean-dns-series.jpg)
+![digitalocean-dns-series](http://static.zhuxiaodong.net/blog/static/images/digitalocean-dns-series.jpg)
 
