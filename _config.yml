@@ -67,12 +67,12 @@ pagination_dir: page
 ## Themes: http://hexo.io/themes/
 #theme: maupassant
 theme: next
-plugins:
-- hexo-generator-sitemap
-- hexo-generator-baidu-sitemap
-- hexo-generator-feed
-- hexo-renderer-markdown-it
-- hexo-qiniu-sync
+# plugins:
+# - hexo-generator-sitemap
+# - hexo-generator-baidu-sitemap
+# - hexo-generator-feed
+# - hexo-renderer-markdown-it
+# - hexo-qiniu-sync
 
 markdown:
   render:
