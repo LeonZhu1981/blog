@@ -67,6 +67,7 @@ pagination_dir: page
 ## Themes: http://hexo.io/themes/
 #theme: maupassant
 theme: next
+
 # plugins:
 # - hexo-generator-sitemap
 # - hexo-generator-baidu-sitemap
