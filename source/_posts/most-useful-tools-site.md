@@ -22,6 +22,11 @@ tags:
 ---
 [**bash man**](http://man.linuxde.net/): 简洁的Linux bash shell帮助文档, 以命令或者分类的方式搜索, 并提供较为详细的示例.
 
+[**the geek stuff**](http://www.thegeekstuff.com/): linux学习的网站, 示例非常简洁, 清晰. 比较好的文章包括:
+* http://www.thegeekstuff.com/2011/12/linux-performance-monitoring-tools/
+* http://www.thegeekstuff.com/2010/11/50-linux-commands/
+* http://www.thegeekstuff.com/2010/12/50-unix-linux-sysadmin-tutorials/
+
 <!--more-->
 
 ## Web前端:
@@ -47,5 +52,25 @@ tags:
 [**thoughtworks radar**](https://www.thoughtworks.com/radar): 评估使用的技术/语言/平台是否靠谱.
 
 [**bugly SDK**](https://dsx.bugly.qq.com/): 提供android studio/XCode/gradle的国内镜像, 提升下载速度.
+
+[**google trends**](https://www.google.com/trends/): 根据google趋势查看各个技术的热度.
+
+[**Online book convertor**](http://onlineconverter.epubor.com/)
+
+[**gif split**](http://ezgif.com/split):
+
+[**gif maker**](http://loading.io/):
+
+[**二维码生成**](https://cli.im/):
+
+[**字体产生ascii**](http://www.network-science.de/ascii/)
+
+## windows效率工具:
+---
+[**listary**](http://www.listary.com/): windows下堪比Alfred的神器.
+[**Cmder**](http://www.jeffjade.com/2016/01/13/2016-01-13-windows-software-cmder/)
+
+## Mac效率工具:
+https://github.com/jaywcjlove/awesome-mac
 
 
