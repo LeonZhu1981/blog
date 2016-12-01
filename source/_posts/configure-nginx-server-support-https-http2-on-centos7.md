@@ -11,6 +11,12 @@ tags:
 - http/2
 - centos7
 ---
+# 一些更新说明:
+---
+**2016-12-01:** 
+1. 更新了使用nginx_upstream_check_module时, 当backend web server为IIS时, 原有的配置会导致upstream check module无法判断后端server是否alive的问题.
+2. nginx configure添加了http_stub_status_module, 用于监控基本的访问量信息.
+3. 添加了重新编译nginx之后, 替换原有部署的可执行文件的具体操作步骤.
 
 # 环境介绍:
 ---
@@ -182,7 +188,7 @@ cd /usr/local/src/nginx-1.11.5/
 # 首先对nginx打上nginx_upstream_check_module的patch
 patch -p1 < ../nginx_upstream_check_module/check_1.11.5+.patch
 
-./configure --add-module=../ngx_brotli --add-module=../nginx-ct-1.3.1 --add-module=../nginx_upstream_check_module --with-openssl=../openssl --with-http_v2_module --with-http_ssl_module --with-http_gzip_static_module --with-cc-opt='-Wno-deprecated-declarations -DTCP_FASTOPEN=23'
+./configure --add-module=../ngx_brotli --add-module=../nginx-ct-1.3.1 --add-module=../nginx_upstream_check_module --with-openssl=../openssl --with-http_v2_module --with-http_ssl_module --with-http_gzip_static_module --with-http_stub_status_module --with-cc-opt='-Wno-deprecated-declarations -DTCP_FASTOPEN=23'
 
 make
 sudo make install
@@ -229,7 +235,7 @@ centos 7及以上的版本是用[Systemd](http://www.ibm.com/developerworks/cn/l
 Systemd服务文件以.service结尾, 比如现在要建立nginx为开机启动, 如果用yum install命令安装的, yum命令会自动创建nginx.service文件, 直接用命令:
 
 ```
-systemcel enable nginx.service
+systemctl enable nginx.service
 ```
 
 由于我们之前是使用源代码进行的安装, 因此需要手动创建nginx.service服务文件.
@@ -560,7 +566,7 @@ upstream website {
 
     # watchdog.html只是简单的response一个字符串, 当然也可以根据
     # 你的应用场景定制, 比如检测后端的Slave DB, 关键核心服务等.
-    check_http_send "GET /watchdog.html HTTP/1.1\r\n\r\n";
+    check_http_send "HEAD /watchdog.html HTTP/1.1\r\nConnection: keep-alive\r\nHost: web01.com\r\n\r\n";
     check_http_expect_alive http_2xx http_3xx;
 }
 
@@ -588,12 +594,60 @@ server {
         proxy_pass           http://website;
     }
     
-    location /statuswebsite {
+    location /access-status {
+        stub_status on;
+        access_log  off;
+    }
+
+    location /check-status {
         check_status;
-        access_log   off;
-    }   
+        access_log  off;
+    }
 }
 ```
+
+**update 2016-12-01:**
+> 1. 最开始的时候, 我将upstream check module配置为如下的方式:
+```
+check_http_send "GET /watchdog.html HTTP/1.1\r\n\r\n";
+```
+>    当后端server为node.js没有任何问题, 但是当后端server为IIS的时候, upstream check module会认为/watchdog.html无法被正常监控到. telnet对应的后端server端口和curl请求/watchdog.html都没有问题. 查看nginx的error.log, 发现有这样的一些错误日志:
+```
+[error] 27595#0: check protocol http error with peer: xx.xx.xxx.xxx:9000
+```
+>    于是google之后, 发现有很多人遇到相同的[问题](https://github.com/alibaba/tengine/issues/384).
+
+>    最终找到了2种解决方案:
+>    第一种方案: 将请求协议修改成HTTP/1.0
+```
+GET /watchdog.html HTTP/1.0\r\n\r\n
+```
+
+>    第二种方案: 不改变HTTP/1.1协议请求, 增加显式地指定Connection: keep-alive. 上述配置使用的是该方案
+```
+# 由GET调整为HEAD只是为了减少一些返回的请求字节数, 与此"坑"无关.
+check_http_send "GET /watchdog.html HTTP/1.1\r\nConnection: keep-alive\r\nHost: web01.com\r\n\r\n";
+```
+
+> 2. 开启http_stub_status module, 用于监控基础的请求状况信息. 详细配置参考[官方文档](https://nginx.org/en/docs/http/ngx_http_stub_status_module.html).
+```
+location /access-status {
+    stub_status on;
+    access_log  off;
+}
+```
+>    访问/access-status页面, 能看到如下的一些基本监控信息
+![nginx-stub-module](http://static.zhuxiaodong.net/blog/static/images/nginx-stub-module.png)
+
+> 3. upstream check module提供了后端server健康状态监控页面
+```
+location /check-status {
+    check_status;
+    access_log  off;
+}
+```
+>    访问/check-status页面
+![upstream-check-module](http://static.zhuxiaodong.net/blog/static/images/upstream-check-module.png)
 
 创建M网站的server配置文件.
 
@@ -610,8 +664,7 @@ upstream mobilesite {
     server      web02:9001 weight=1 max_fails=2 fail_timeout=15s;
 
     check interval=5000 rise=2 fall=3 timeout=1000 type=http;
-    check_http_send "GET /watchdog.html HTTP/1.1\r\n\r\n";
-    check_http_expect_alive http_2xx http_3xx;
+    check_http_send "HEAD /watchdog.html HTTP/1.1\r\nConnection: keep-alive\r\nHost: web01.com\r\n\r\n";
 }
 
 server {
@@ -633,10 +686,15 @@ server {
         proxy_pass           http://mobilesite;
     }
     
-    location /statusmobilesite {
+    location /access-status {
+        stub_status on;
+        access_log  off;
+    }
+
+    location /check-status {
         check_status;
-        access_log   off;
-    }   
+        access_log  off;
+    }  
 }
 ```
 
@@ -655,7 +713,7 @@ upstream webapi {
     server      web02:9002 weight=1 max_fails=2 fail_timeout=15s;
     
     check interval=5000 rise=2 fall=3 timeout=1000 type=http;
-    check_http_send "GET /watchdog.html HTTP/1.1\r\n\r\n";
+    check_http_send "HEAD /watchdog.html HTTP/1.1\r\nConnection: keep-alive\r\nHost: web01.com\r\n\r\n";
     check_http_expect_alive http_2xx http_3xx;
 }
 
@@ -678,10 +736,15 @@ server {
         proxy_pass           http://webapi;
     }
     
-    location /statuswebapi {
+    location /access-status {
+        stub_status on;
+        access_log  off;
+    }
+
+    location /check-status {
         check_status;
-        access_log   off;
-    }   
+        access_log  off;
+    }  
 }
 ```
 
@@ -752,4 +815,50 @@ Nov 14 16:16:16 systemd[1]: Reloading nginx.
 Nov 14 16:16:16 systemd[1]: Reloaded nginx.
 Nov 14 21:04:09 systemd[1]: Reloading nginx.
 Nov 14 21:04:09 systemd[1]: Reloaded nginx.
+```
+
+**update 2016-12-01:**
+> 如果我们是重新编译nginx, 需要替换掉线上正在运行的可执行文件, 建议采取如下方式:
+
+> 建立备份文件夹, 并将相关的配置文件和可执行文件备份
+```
+cd /usr/local/nginx/
+
+mkdir bak/ && mkdir bak/conf && mkdir bak/sbin
+# 这里假设只修改了nginx.conf主配置文件.
+cp -R /usr/local/nginx/conf/nginx.conf /usr/local/nginx/bak/conf/.
+```
+
+> 以下假设我们为nginx新添加了module, 或者打了补丁, 需要重新编译. **注意, 不要执行make install**
+```
+cd /usr/local/src/nginx-1.11.5/
+./configure ...
+make
+```
+
+> 测试一下新编译出的nginx, 使用现有的配置文件是否正确. **使用objs/下的nginx做测试**
+
+```
+/usr/local/src/nginx-1.11.5/objs/nginx -t
+```
+
+> 测试通过了之后, 替换掉老的nginx可执行文件.
+
+```
+cp /usr/local/src/nginx-1.11.5/objs/nginx /usr/local/nginx/sbin/nginx 
+```
+
+> 大多数场景下, 可能遇到如下的错误:
+```
+cp:cannot create regular file `/usr/local/nginx/sbin/nginx': Text file busy
+```
+
+> 需要为cp命令添加-rfp参数:
+```
+cp -rfp /usr/local/src/nginx-1.11.5/objs/nginx /usr/local/nginx/sbin/nginx
+```
+
+> 最后, restart nginx. **注意: 不是reload**
+```
+systemctl restart nginx.service
 ```
