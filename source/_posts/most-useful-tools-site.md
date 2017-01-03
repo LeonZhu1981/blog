@@ -5,6 +5,26 @@ tags:
 - tools
 ---
 
+## 命令行常用快捷键:
+---
+```
+空格键: 预览
+cmd + ,: 设置
+cmd + -/=: 缩小/放大
+ctrl + u: 删除到行首(与zsh冲突, zsh中是删除整行)
+ctrl + k: 删除到行尾
+ctrl + p/n: 上/下移动一行或者前/后一个命令
+ctrl + b/f: 光标前/后移char
+esc + b/f: 光标前/后移word(蛋疼不能连续work)
+ctrl + a/e: 到行首/行尾
+ctrl + h/d: 删前/后字符
+ctrl + y: 粘贴
+ctrl + w: 删除前一个单词
+esc + d: 删后一个单词
+ctrl + _: undo
+ctrl + r: bck-i-search/reverse-i-search, 输入关键字搜索历史命令
+```
+
 ## 学习网站:
 ---
 [**Learn X in Y minutes**](https://learnxinyminutes.com/): 快速学习各种相关知识的网站. 强调在几分钟之内对该技术能够有大概的了解和认识.
@@ -54,6 +74,8 @@ tags:
 [**bugly SDK**](https://dsx.bugly.qq.com/): 提供android studio/XCode/gradle的国内镜像, 提升下载速度.
 
 [**google trends**](https://www.google.com/trends/): 根据google趋势查看各个技术的热度.
+
+[**站长工具**](http://ip.chinaz.com/): 查询IP、tracroute、网站信息查询、SEO查询....
 
 [**Online book convertor**](http://onlineconverter.epubor.com/)
 
