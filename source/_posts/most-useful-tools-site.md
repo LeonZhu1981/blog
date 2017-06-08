@@ -47,6 +47,17 @@ ctrl + r: bck-i-search/reverse-i-search, 输入关键字搜索历史命令
 * http://www.thegeekstuff.com/2010/11/50-linux-commands/
 * http://www.thegeekstuff.com/2010/12/50-unix-linux-sysadmin-tutorials/
 
+[**view large file**](https://www.cyberciti.biz/faq/find-large-files-linux/): 查看大文件.
+
+[**du & df**](http://os.51cto.com/art/201012/240726_all.htm): 查看磁盘空间.
+
+[**centos rpm 安装相关**](https://wiki.centos.org/zh/TipsAndTricks/YumAndRPM): 尤其是如下这条, 在服务器上通过yum install安装, 但是镜像源下载rpm包超级慢的情况, 可以找一台网络比较好的PC, 用迅雷等下载软件加速下载, 再copy到服务器上之后进行安装, 此时,可能会使用到:
+
+```
+# 用 yum 去安装本地组件，并自动地检查／满足依赖性
+yum --nogpgcheck localinstall packagename.arch.rpm 
+```
+
 <!--more-->
 
 ## Web前端:

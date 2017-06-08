@@ -281,6 +281,12 @@ pom.xml文件中的依赖, 谁先声明就依赖对应的包.
 	* step 3: 可以自定义扩展properties属性来定义一些公共的变量.
 	* step 4: 设置子项目的<parent></parent>属性.
 
+## 分析pom.xml当中的依赖关系:
+
+```
+mvn dependency:tree
+```
+
 ## 相关的参考资料:
 
 [官方文档](http://maven.apache.org/guides/index.html)
