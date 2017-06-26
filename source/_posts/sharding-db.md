@@ -176,4 +176,10 @@ toc: true
 
 ### 分布式ID算法Java实现:
 
-sharding-jdbc当中已经默认包含了3种分布式ID的实现算法, 参考[这里](https://github.com/dangdangdotcom/sharding-jdbc/tree/master/sharding-jdbc-id-generator-parent/sharding-jdbc-self-id-generator/src/main/java/com/dangdang/ddframe/rdb/sharding/id/generator/self) 和 [这里](http://www.jianshu.com/p/80e68ae9e3a4)。我们需要做的是，在[CommonSelfIdGenerator](https://github.com/dangdangdotcom/sharding-jdbc/blob/master/sharding-jdbc-id-generator-parent/sharding-jdbc-self-id-generator/src/main/java/com/dangdang/ddframe/rdb/sharding/id/generator/self/CommonSelfIdGenerator.java)的基础上，实现我们自己的算法。
+#### UPDATE 2017-06-21:
+
+sharding-jdbc 1.5.0版本大幅度的重构了代码，其中分布式ID的实现只提供了一种：[DefaultKeyGenerator](https://github.com/dangdangdotcom/sharding-jdbc/blob/master/sharding-jdbc-core/src/main/java/com/dangdang/ddframe/rdb/sharding/keygen/DefaultKeyGenerator.java)。
+
+#### UPDATE 2017-06-21: 以下的描述是基于1.4.2版本
+
+sharding-jdbc当中已经默认包含了3种分布式ID的实现算法, 参考[这里](https://github.com/dangdangdotcom/sharding-jdbc/tree/1.4.2/sharding-jdbc-id-generator-parent/sharding-jdbc-self-id-generator/src/main/java/com/dangdang/ddframe/rdb/sharding/id/generator/self) 和 [这里](http://www.jianshu.com/p/80e68ae9e3a4)。我们需要做的是，在[CommonSelfIdGenerator](https://github.com/dangdangdotcom/sharding-jdbc/blob/1.4.2/sharding-jdbc-id-generator-parent/sharding-jdbc-self-id-generator/src/main/java/com/dangdang/ddframe/rdb/sharding/id/generator/self/CommonSelfIdGenerator.java)的基础上，实现我们自己的算法。
