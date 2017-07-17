@@ -72,6 +72,10 @@ yum --nogpgcheck localinstall packagename.arch.rpm
 
 ## 常用工具类网站:
 ---
+[**searchcode**](https://searchcode.com/): 一个非常好的搜索源代码的网站，集成了github，google code，BitBucket等知名代码托管平台的代码。
+
+[**grepcode**](http://grepcode.com/): 搜索Java的标准库的代码会更好用，并且支持不同的JDK版本的过滤。
+
 [**observatory**](https://mozilla.github.io/http-observatory-website/): 测试你的网站的安全漏洞, 并给出建议和评分.
 
 [**StatCounter**](http://gs.statcounter.com/): 统计浏览器的市场份额, 数据统计的更新频率很高, 统计筛选的功能很丰富.

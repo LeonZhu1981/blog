@@ -63,7 +63,7 @@ at HeapOOM.main(HeapOOM.java:10)
 
 **Eclipse Memory Analyzer使用方式的简单教程**：
 
-我们将演示1.7.0版本在mac os x下的使用方式。
+我们将演示1.7.0版本在mac os x下的使用方式。其中关于一部分Memory Analyzer的配置（MemoryAnalyzer.ini配置文件的路径在: **mat.app/Contents/Eclipse/MemoryAnalyzer.ini**），可以参考[官方文档](https://wiki.eclipse.org/MemoryAnalyzer/FAQ)。
 
 step 1：下载EMA的mac os x版本，由于我的本机没有安装eclipse IDE，因此是使用stand-alone的方式。download url：[here](http://www.eclipse.org/mat/downloads.php)
 

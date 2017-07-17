@@ -162,16 +162,16 @@ mathjax:
 #baidu_analytics:
 
 # Duoshuo ShortName
-duoshuo_shortname: leonzhu1981
+# duoshuo_shortname: leonzhu1981
 
 # Disqus
-#disqus_shortname:
+disqus_shortname: zhuxiaodong-net
 
 # Share
 #jiathis: true
 
 # Share
-duoshuo_share: true
+# duoshuo_share: true
 
 # Google Webmaster tools verification setting
 # See: https://www.google.com/webmasters/
@@ -184,14 +184,14 @@ google_analytics: UA-71600140-1
 # Make duoshuo show UA
 # user_id must NOT be null when admin_enable is true!
 # you can visit http://dev.duoshuo.com get duoshuo user id.
-duoshuo_info:
-  ua_enable: true
-  admin_enable: false
-  user_id: 7007403
+# duoshuo_info:
+#  ua_enable: true
+#  admin_enable: false
+#  user_id: 7007403
   #admin_nickname: ROOT
 
 # 多说热评文章 true 或者 false
-duoshuo_hotartical: true
+# duoshuo_hotartical: true
 
 #changyan
 changyan_appid: 
