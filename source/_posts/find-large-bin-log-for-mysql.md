@@ -1,4 +1,4 @@
-title: 一次mysql运维经验
+title: 一次mysql运维经验-Binlog过大导致磁盘空间不足
 date: 2017-08-14 14:25:27
 categories: programming
 tags:
