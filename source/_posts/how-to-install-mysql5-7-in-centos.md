@@ -28,6 +28,8 @@ tags:
 # 安装Mysql
 ---
 
+> NOTE: 如果安装过程过于缓慢, 建议将镜像源换成163网易的镜像源, 参考: http://mirrors.163.com/.help/centos.html
+
 ## Step 1: 添加Mysql yum镜像源
 
 rpm包文件的规则为：**platform-and-version-specific-package-name**
@@ -483,4 +485,7 @@ NOTE：
 ```
 GRANT ALL PRIVILEGES ON <db_name>.* TO '<db_account>'@'<client_ip>' identified by '<password>’;
 ```
+
+> 如果遇到：ERROR 1045 (28000): Access denied for user'root'@'localhost'(using password: YES) 的问题
+> 参考：http://www.jianshu.com/p/525ddabced3d
 
