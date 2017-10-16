@@ -58,6 +58,8 @@ ctrl + r: bck-i-search/reverse-i-search, 输入关键字搜索历史命令
 yum --nogpgcheck localinstall packagename.arch.rpm 
 ```
 
+[**Linux各个版本的源代码在线阅读**](http://elixir.free-electrons.com/linux/v2.6.39.4/source)
+
 <!--more-->
 
 ## Web前端:
