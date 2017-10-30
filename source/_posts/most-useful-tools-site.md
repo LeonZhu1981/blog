@@ -114,4 +114,12 @@ yum --nogpgcheck localinstall packagename.arch.rpm
 ## Mac效率工具:
 https://github.com/jaywcjlove/awesome-mac
 
+## 2的n次幂速算表:
+
+![2-n-table](http://static.zhuxiaodong.net/blog/static/images/2-n-table.png)
+
+## most tech in interview:
+
+![most-userful-tech-stack](http://static.zhuxiaodong.net/blog/static/images/most-userful-tech-stack.png)
+
 
