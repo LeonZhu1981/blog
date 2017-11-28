@@ -122,4 +122,11 @@ https://github.com/jaywcjlove/awesome-mac
 
 ![most-userful-tech-stack](http://static.zhuxiaodong.net/blog/static/images/most-userful-tech-stack.png)
 
+## Front-end checklist:
+
+[**https://github.com/thedaviddias/Front-End-Checklist**](https://github.com/thedaviddias/Front-End-Checklist)
+
+## 计算机词汇正确发音:
+
+[**这是**](https://github.com/shimohq/chinese-programmer-wrong-pronunciation): github上一个有趣的项目，帮助大家纠正常见技术词汇的错误发音，本质上是通过调用有道词典的：http://dict.youdao.com/dictvoice?audio={传入的单词}&type=1
 
