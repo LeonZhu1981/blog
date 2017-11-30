@@ -1,7 +1,10 @@
 title: learing mariadb & mysql-execution plan(part-1)
 date: 2017-11-28 22:30:28
-categories:
+categories: programming
 tags:
+- mysql
+- mariadb
+- execution plan
 ---
 
 ## 体系结构
