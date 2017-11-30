@@ -1,4 +1,4 @@
-title: learing-mariadb-mysql-part-1-basic-knowledge
+title: learing mariadb & mysql-basic knowledge
 date: 2017-11-28 21:55:32
 categories: programming
 tags:
