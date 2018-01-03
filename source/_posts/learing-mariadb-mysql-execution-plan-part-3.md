@@ -861,3 +861,226 @@ explain select * from dept_emp de, employees e where de.from_date>'2005-01-01' a
 ```
 
 其中 BNL join 表示 "Block Nested Loop Join"，除此之外，常见的还有 “Batched Key Access”，后续的章节当中会详细的进行讲解。
+
+### Using sort_union、Using union、Using intersect、Using sort_intersection
+
+在使用 index_merge 访问方式时，可以同时使用两个以上的索引。为了进一步说明如何合并从两个索引读取结果，执行计划会在 Extra 列显示更多的信息，包括：
+
+* Using intersect ： 使用 AND 连接各个使用索引的条件时，该信息表示从各处理结果获取交集。
+* Using union ： 使用 OR 连接各个使用索引的条件时，该信息表示从各处理结果获取并集。
+* Using sort_union ： 执行的处理与 Using union 相同，但无法使用 Using union 处理时（用 OR 连接的量相对大的 range 条件），才使用该方式进行处理。与 Using union的不同之处在于， Using sort_union 要先读取主键，进行排序合并之后，才能读取记录并返回。
+* Using sort_intersection ：类似于 sort_union ，也是先排序再取交集。可以用于相等比较，BETWEEN或IN等比较范围运算符。
+
+> Using union 使用单路排序算法（ Single pass ），而 Using sort_union 使用双路排序算法（ Two pass ）。
+
+### Using temporary
+
+MariaDB 在处理查询时会使用临时表存储中间结果，临时表可以在内存中创建，也可以在磁盘上创建（我们无法只通过执行计划去判断临时表实际创建的位置）。如果在 Extra 列上显示 `Using temporary` ，则表示使用临时表。
+
+```
+explain select * from employees group by gender order by min(emp_no);
++------+-------------+-----------+------+---------------+------+---------+------+--------+---------------------------------+
+| id   | select_type | table     | type | possible_keys | key  | key_len | ref  | rows   | Extra                           |
++------+-------------+-----------+------+---------------+------+---------+------+--------+---------------------------------+
+|    1 | SIMPLE      | employees | ALL  | NULL          | NULL | NULL    | NULL | 300024 | Using temporary; Using filesort |
++------+-------------+-----------+------+---------------+------+---------+------+--------+---------------------------------+
+```
+
+上面的查询中，由于 GROUP BY 与 ORDER BY 使用不同数据列，所以执行时需要使用临时表。
+
+注意：有很多时候，虽然在执行计划中并未显示 `Using temporary` ，但是其内部有可能也使用了临时表。例如如下的常见场景：
+* FROM 子句中的子查询必然会创建临时表（ 派生表-Derived table ）。
+* 含有 COUNT(DISTINCT col1) 的查询无法使用索引时。
+* 使用 UNION 或 UNION ALL 的查询也总是使用临时表合并结果。
+* 不能使用索引的排序操作会使用临时缓冲空间，本质上就是临时表。此时，Extra 列会显示 `Using filesort` 。
+
+### Using where
+
+MariaDB 中大致分为了 MariaDB 引擎与存储引擎两层。存储引擎负责从磁盘或内存中进行读写操作；MariaDB 引擎负责加工或运算从存储引擎得到的记录。当 MariaDB 引擎层对数据进行加工和过滤处理时，Extra 列就会显示 `Using where` 。
+
+![extra-using-where](http://static.zhuxiaodong.net/blog/static/images/extra-using-where.png)
+
+上述图中，存储引擎总共读取了200条记录，在交由 MariaDB 引擎进行加工和过滤处理，此时，Extra 列就会显示 `Using where` 。
+
+```
+explain select * from employees where emp_no between 10001 AND 10100 and gender='F';
++------+-------------+-----------+-------+---------------+---------+---------+------+------+-------------+
+| id   | select_type | table     | type  | possible_keys | key     | key_len | ref  | rows | Extra       |
++------+-------------+-----------+-------+---------------+---------+---------+------+------+-------------+
+|    1 | SIMPLE      | employees | range | PRIMARY       | PRIMARY | 4       | NULL |  100 | Using where |
++------+-------------+-----------+-------+---------------+---------+---------+------+------+-------------+
+```
+
+上述查询中，BETWEEN 子句为限制条件，一共有100条数据（通过 rows 列也可以看出）；gender = 'F' 为检查条件。存储引擎会读取100条记录，然后交给 MariaDB 引擎，过滤掉63条不符合条件的记录。
+
+我们需要根据 `Using where` 判断是否存在性能问题，可以根据 Filtered 列来进行判断，会在后续的章节当中介绍。
+
+从 MariaDB 5.1 的 InnoDB 插件版本开始，解决了此前版本中，无法将所有的条件传递给存储引擎的问题，这种功能被称之为：`条件下推（ Condition push down ）`。
+
+### Using where with pushed condition
+
+执行计划的 Extra 列显示 `Using where with pushed condition` 表示 `条件下推（ Condition push down ）`。 从 MariaDB 5.1 版本开始，InnoDB 和 MyISAM 存储引擎都得到了支持。
+
+但是，除了 NDB Cluster 存储引擎之外，InnoDB 和 MyISAM 的执行计划当中都不会显式地呈现出 `Using where with pushed condition` 。
+
+### Deleting all rows
+
+InnoDB 或 MyISAM 存储引擎中 Handler 处理器，提供了一种快速删除数据表所有记录的功能，此时，Extra 列就会显示出 `Deleting all rows` 信息。它会经常出现在不带 WHERE 条件句的 DELETE 语句的执行计划中，表示调用1次存储引擎的删除所有记录的 Handler API。由于只调用一次，因此性能会更好。
+
+```
+create table tab_delete_test(fd int primary key) engine=InnoDB;
+insert into tab_delete_test values (1), (2), (3);
+
+explain delete from tab_delete_test;
++------+-------------+-------+------+---------------+------+---------+------+------+-------------------+
+| id   | select_type | table | type | possible_keys | key  | key_len | ref  | rows | Extra             |
++------+-------------+-------+------+---------------+------+---------+------+------+-------------------+
+|    1 | SIMPLE      | NULL  | NULL | NULL          | NULL | NULL    | NULL |    3 | Deleting all rows |
++------+-------------+-------+------+---------------+------+---------+------+------+-------------------+
+
+explain delete from tab_delete_test where fd = 1;
++------+-------------+-----------------+-------+---------------+---------+---------+------+------+-------------+
+| id   | select_type | table           | type  | possible_keys | key     | key_len | ref  | rows | Extra       |
++------+-------------+-----------------+-------+---------------+---------+---------+------+------+-------------+
+|    1 | SIMPLE      | tab_delete_test | range | PRIMARY       | PRIMARY | 4       | NULL |    1 | Using where |
++------+-------------+-----------------+-------+---------------+---------+---------+------+------+-------------+
+```
+
+上面的例子可以看出，当删除整张表所有的数据时，Extra 列就会显示出 `Deleting all rows` ；当删除表时有 WHERE 条件时，Extra 列会显示为 `Using where` 。
+
+### FirstMatch(tbl_name)
+
+`FirstMatch` 是从 MariaDB 5.3 与 MySQL 5.6 中引入的用于优化子查询的策略之一。
+
+```
+explain select * from departments d where d.dept_no in (select de.dept_no from dept_emp de);
+```
+
+在 MySQL 5.6 版本中，上述 SQL 语句执行计划当中的 Extra 列会显示出 `FirstMatch(departments)` ，即 MySQL 5.5 版本中的 In-to-EXITST 的优化方式。处理查询之前首先将 IN (子查询) 转换为 EXISTS 类型的查询。
+
+而在 MariaDB 10.0 中，上述 SQL 语句的执行计划为：
+
+```
++------+--------------+-------------+--------+---------------+--------------+---------+------+--------+-------------+
+| id   | select_type  | table       | type   | possible_keys | key          | key_len | ref  | rows   | Extra       |
++------+--------------+-------------+--------+---------------+--------------+---------+------+--------+-------------+
+|    1 | PRIMARY      | d           | index  | PRIMARY       | ux_deptname  | 162     | NULL |      9 | Using index |
+|    1 | PRIMARY      | <subquery2> | eq_ref | distinct_key  | distinct_key | 16      | func |      1 |             |
+|    2 | MATERIALIZED | de          | index  | PRIMARY       | ix_fromdate  | 3       | NULL | 331603 | Using index |
++------+--------------+-------------+--------+---------------+--------------+---------+------+--------+-------------+
+```
+
+子查询首先被 MATERIALIZED ，然后依次连接 departments 数据表与 MATERIALIZED 之后的临时表，最后再执行查询方式。
+
+MariaDB 10.0 的 MATERIALIZED 优化方式并没有 MySQL 5.6 中的 FirstMatch 高效，我们可以通过两种方式来做优化：
+* 调整 MariaDB 10.0 的 optimizer_switch ，设置子查询优化为 FirstMatch的方式。后续的章节中再做详细讲解。
+* 调整 SQL 的写法，上述的子查询可以换成 JOIN 的方式。
+
+```
+explain select d.* from departments d inner join dept_emp de on d.dept_no = de.dept_no;
++------+-------------+-------+-------+---------------+-------------+---------+---------------------+-------+-------------+
+| id   | select_type | table | type  | possible_keys | key         | key_len | ref                 | rows  | Extra       |
++------+-------------+-------+-------+---------------+-------------+---------+---------------------+-------+-------------+
+|    1 | SIMPLE      | d     | index | PRIMARY       | ux_deptname | 162     | NULL                |     9 | Using index |
+|    1 | SIMPLE      | de    | ref   | PRIMARY       | PRIMARY     | 16      | employees.d.dept_no | 36844 | Using index |
++------+-------------+-------+-------+---------------+-------------+---------+---------------------+-------+-------------+
+```
+
+### LooseScan(m..n)
+
+`LooseScan` 是从 MariaDB 5.3 与 MySQL 5.6 中引入的用于优化子查询的策略之一。在 IN（ Subquery ）类型的查询中，子查询的结果可能产生重复记录时，就能够使用该优化方法。
+
+我们首先调整 optimizer_switch 才能够呈现出 LooseScan 优化。
+
+```
+# 恢复优化器选项为默认值
+SET optimizer_switch=DEFAULT;
+# 关闭 firstmatch
+SET optimizer_switch='firstmatch=off';
+# 关闭 materialization
+SET optimizer_switch='materialization=off';
+
+explain select * from departments d where d.dept_no in (select de.dept_no from dept_emp de);
++------+-------------+-------+--------+---------------+---------+---------+----------------------+--------+------------------------+
+| id   | select_type | table | type   | possible_keys | key     | key_len | ref                  | rows   | Extra                  |
++------+-------------+-------+--------+---------------+---------+---------+----------------------+--------+------------------------+
+|    1 | PRIMARY     | de    | index  | PRIMARY       | PRIMARY | 20      | NULL                 | 331603 | Using index; LooseScan |
+|    1 | PRIMARY     | d     | eq_ref | PRIMARY       | PRIMARY | 16      | employees.de.dept_no |      1 |                        |
++------+-------------+-------+--------+---------------+---------+---------+----------------------+--------+------------------------+
+```
+
+上述的查询中，首先使用 Loose Index Scan 读取子查询的内容，然后删除重复记录时，就会使用 LooseScan 优化方法。去除重复后的 dept_emp 表的结果被用作驱动表，用于与 departments 数据表连接。LooseScan 的优势是不需要用另外的临时表。
+
+### Materialize 、 Scan
+
+使用 具体化 `Materialization` 优化方法提高子查询处理速度时，执行计划就会显示 `Materialize 、 Scan` 信息。该信息只会出现在最初的几个 MariaDB 10.0 和 MySQL 5.6 版本中，后续的版本中转变成了在 select_type 列当中显示 MATERIALIZED 关键字。
+
+### Start materialize 、 End materialize、 Scan
+
+同上，只会显示在最初的几个 MariaDB 10.0 和 MySQL 5.6 版本中，后续的版本中转变成了在 select_type 列当中显示 MATERIALIZED 关键字。
+
+### Start temporary 、 End temporary
+
+当使用 `Duplicate Weedout` 的优化子查询的方式时，Extra 列就会显示为 `Start temporary End temporary` 。`Duplicate Weedout` 会先访问 IN (Subquery) 中的子查询，然后将于外部查询数据表连接后的结果存储到临时表，之后再删除重复记录。
+
+### Using index condition
+
+执行 WHERE 条件的查询时，如果可以使用索引，则先读取索引判断是否符合条件，需要时再读取数据文件中的记录。
+
+在 MariaDB 5.2 与 MySQL 5.5 之前的版本中，即使条件可以使用索引，条件也不会传递给存储引擎，这会导致存储引擎读取了很多实际并不需要的数据，降低了查询的性能。
+
+```
+explain select * from employees where first_name like 'Lee%' AND first_name like '%matt';
+```
+
+上面的查询语句在 MySQL 5.5 版本中，Extra 列会显示 `Using where` 。原因是因为 LIKE 'Lee%' 后缀匹配符的查询条件，无法传递给存储引擎，导致随机读取了数据文件。
+
+而在 MariaDB 10.0 版本中， 会显示为：`Using index condition` 。这意味着 SQL 优化器能够将两个查询条件都传递给存储引擎，从而最大限度地灵活使用索引，以避免从数据文件当中读取多余的数据文件。 这种方式又被称为：`索引条件下推 （ Index condition= ）`
+
+```
++------+-------------+-----------+-------+---------------+--------------+---------+------+------+-----------------------+
+| id   | select_type | table     | type  | possible_keys | key          | key_len | ref  | rows | Extra                 |
++------+-------------+-----------+-------+---------------+--------------+---------+------+------+-----------------------+
+|    1 | SIMPLE      | employees | range | ix_firstname  | ix_firstname | 58      | NULL |  246 | Using index condition |
++------+-------------+-----------+-------+---------------+--------------+---------+------+------+-----------------------+
+```
+
+### Rowid-ordered scan 、 Key-ordered scan
+
+在 MySQL 5.6 与 MariaDB 5.3 之前的版本中，通过索引范围扫描查找符合 WHERE 条件的记录，然后再根据需要读取数据文件的其它记录，由于相关记录数据文件的读取每次采用随机 I/O 访问的方式，会非常耗费性能。
+
+多范围读 （ Multi Range Read，MRR ）正是为了解决这个问题而出现的。首先通过索引读取一定量符合 WHERE 条件的记录，然后使用主键值进行排序，再从实际数据文件中读取其余数据列。由于是排序后的结果，这种方式能够有效地减少随机读取数据文件。
+
+```
+# 开启优化器的 MRR 选项
+set optimizer_switch='mrr-ON';
+set optimizer_switch='mrr_sort_keys=ON';
+
+explain select * from employees where first_name>='A' and first_name<'B';
++------+-------------+-----------+-------+---------------+--------------+---------+------+-------+-------------------------------------------+
+| id   | select_type | table     | type  | possible_keys | key          | key_len | ref  | rows  | Extra                                     |
++------+-------------+-----------+-------+---------------+--------------+---------+------+-------+-------------------------------------------+
+|    1 | SIMPLE      | employees | range | ix_firstname  | ix_firstname | 58      | NULL | 41650 | Using index condition; Rowid-ordered scan |
++------+-------------+-----------+-------+---------------+--------------+---------+------+-------+-------------------------------------------+
+```
+
+上述查询中，Extra 列会显示出 `Rowid-ordered scan` 。首先根据 ix_firstname 索引检索出符合 WHERE 条件的记录，然后再根据 emp_no 主键进行排序，最后再读取数据文件。
+
+而 `Key-ordered scan` 用于数据表的主键与连接的查询，存储引擎必须是使用聚集 Key 的 XtraDB 或者 InnoDB。
+
+```
+# 开启优化器的 MRR 选项
+set optimizer_switch='mrr-ON';
+set optimizer_switch='mrr_sort_keys=ON';
+
+# 后续的章节中会详细讲解 join_cache_level
+set join_cache_level=8;
+
+explain select * from dept_emp de, employees e where e.emp_no=de.emp_no and de.dept_no in ('d001','d002');
++------+-------------+-------+--------+---------------------------+---------+---------+---------------------+-------+-------------------------------------------------------+
+| id   | select_type | table | type   | possible_keys             | key     | key_len | ref                 | rows  | Extra                                                 |
++------+-------------+-------+--------+---------------------------+---------+---------+---------------------+-------+-------------------------------------------------------+
+|    1 | SIMPLE      | de    | range  | PRIMARY,ix_empno_fromdate | PRIMARY | 16      | NULL                | 75340 | Using where                                           |
+|    1 | SIMPLE      | e     | eq_ref | PRIMARY                   | PRIMARY | 4       | employees.de.emp_no |     1 | Using join buffer (flat, BKAH join); Key-ordered scan |
++------+-------------+-------+--------+---------------------------+---------+---------+---------------------+-------+-------------------------------------------------------+
+```
