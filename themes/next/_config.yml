@@ -194,7 +194,7 @@ google_analytics: UA-71600140-1
 # duoshuo_hotartical: true
 
 #changyan
-changyan_appid: 
+changyan_appid:
 changyan_appkey:
 
 # Facebook SDK Support.
@@ -217,6 +217,7 @@ links:
   wanghao: http://www.bingoogolapple.cn/#/
   neoremind: http://neoremind.com/
   codinglabs: http://blog.codinglabs.org/
+  hedengcheng: http://hedengcheng.com/
 
 # cnzz
 cnzz_siteid: 1258213716

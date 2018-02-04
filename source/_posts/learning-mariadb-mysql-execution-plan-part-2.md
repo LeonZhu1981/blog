@@ -1,4 +1,4 @@
-title: learing mariadb & mysql-execution plan(part-2)
+title: learning mariadb & mysql-execution plan(part-2)
 date: 2017-11-30 11:08:22
 categories: programming
 tags:
@@ -100,7 +100,7 @@ SELECT * FROM (
 与 UNION select_type 类似，DENPENDENT UNION 出现在 UNION ALL 的集合查询中，DEPENDENT 表示 UNION 或 UNION ALL 联合而成的单位查询受到外部影响。
 
 ```
-EXPLAIN 
+EXPLAIN
 SELECT *
 FROM employees e1
 WHERE e1.emp_no IN (
@@ -136,7 +136,7 @@ UNION RESULT 为包含 UNION 结果的数据表。MariaDB 中， UNION ALL 或 U
 ```
 EXPLAIN
 SELECT e.first_name
-,(SELECT COUNT(*) 
+,(SELECT COUNT(*)
 FROM dept_emp de, dept_manager dm
 WHERE dm.dept_no=de.dept_no
 ) AS cnt
@@ -241,7 +241,7 @@ WHERE e.emp_no = tb.emp_no;
 EXPLAIN
 SELECT *
 FROM employees e
-WHERE e.emp_no = (SELECT @status 
+WHERE e.emp_no = (SELECT @status
 	FROM dept_emp de WHERE de.dept_no = 'd005'
 );
 ```
@@ -293,7 +293,7 @@ WHERE e.emp_no IN (SELECT emp_no
 
 ```
 EXPLAIN
-INSERT INTO employees VALUES 
+INSERT INTO employees VALUES
 (1, '2014-01-01', 'Matt', 'Lee', 'M', '2014-01-02');
 ```
 
@@ -311,9 +311,9 @@ INSERT INTO employees VALUES
 
 ```
 EXPLAIN
-INSERT INTO employees 
-SELECT 
-e.* 
+INSERT INTO employees
+SELECT
+e.*
 FROM employees e
 INNER JOIN dept_emp de
 ON e.emp_no = de.emp_no
@@ -332,7 +332,7 @@ WHERE e.hire_date > '2014-01-01';
 **普通的 UPDATE 或 DELETE 语句**
 
 ```
-EXPLAIN 
+EXPLAIN
 UPDATE employees SET gender = 'F'
 WHERE first_name = 'Matt';
 ```
@@ -368,7 +368,7 @@ EXPLAIN SELECT NOW();
 id/select_type/table 决定了 MariaDB 按照什么样的顺序来执行查询。
 
 ```
-EXPLAIN 
+EXPLAIN
 SELECT *
 FROM (SELECT emp_no
 FROM dept_emp GROUP BY emp_no) as department_employee
@@ -390,6 +390,3 @@ ON e.emp_no = department_employee.emp_no;
 * 从第三行 id 为 2 的查询来看， select_type 列值为 DERIVED，它读取了 dept_emp 表的数据并创建了派生表。
 * 第三行分析完成了之后，再开始执行第一行。
 * 由于第一行和第二行有相同的 id 值，因此需要将 <derived2> 和 e 表 JOIN 起来。需要注意的是，<derived2> 表显示在 e 表之上，因此 <derived2> 是驱动表，e 是被驱动表。进一步来说，就是先读取 <derived2> 表，再和 e 表进行 JOIN 操作。
-
-
-

@@ -1,4 +1,4 @@
-title: learing mariadb & mysql-basic knowledge
+title: learning mariadb & mysql-basic knowledge
 date: 2017-11-28 21:55:32
 categories: programming
 tags:
@@ -19,7 +19,7 @@ tags:
 
 ## status 命令
 ---
- 
+
 使用 `status` 命令或者 `\s` 命令，能够查看当前连接数据库、 MariaDB 版本信息、字符集、以及一些汇总信息。
 
 ```
@@ -194,7 +194,7 @@ GRANT {privilege_list} ON {object} TO {account}
 
 * {privilege_list} ：具体的权限列表
 * 全局权限：
-    
+
 | 权限命令名称 | 说明 |
 | --- | --- |
 | CREATE USER | 创建一个新账号的权限 |
@@ -401,7 +401,7 @@ CREATE TABLE `employees` (
 * 将多个修改语句合并成一个 ALTER TABLE 语句执行。例如：
 
 ```
-ALTER TABLE test_table 
+ALTER TABLE test_table
 ADD created DATETIME NOT NULL
 ,ADD INDEX IX_created(created);
 ```
@@ -425,7 +425,7 @@ ADD created DATETIME NOT NULL
 * 向已有的表当中添加字段：不需要复制数据。
 
 ```
-ALTER ONLINE TABLE test_table 
+ALTER ONLINE TABLE test_table
 ADD modified DATETIME NULL
 ,ADD uold TINYINT NOT NULL;
 Query OK, 0 rows affected (0.05 sec)
@@ -573,7 +573,7 @@ show global variables like 'lock_wait_timeout';
 
 #### pt-online-schema-change
 
-ref url: 
+ref url:
 http://seanlook.com/2016/05/27/mysql-pt-online-schema-change/
 http://seanlook.com/2016/05/24/mysql-online-ddl-concept/
 http://www.fromdual.ch/online-ddl_vs_pt-online-schema-change
@@ -597,7 +597,7 @@ DROP TABLE IF EXISTS test_table;
 #### REPLACE VS ON DUPLICATE KEY UPDATE
 
 ```
-REPLACE test_table SET uid = 1, uname = 'leonzhu'; 
+REPLACE test_table SET uid = 1, uname = 'leonzhu';
 
 INSERT INTO test_table (uid, uname, created) VALUES (1, 'leon', '2017-11-28') ON DUPLICATE KEY UPDATE uname = 'leon', created = '2017-11-28';
 ```
@@ -605,7 +605,3 @@ INSERT INTO test_table (uid, uname, created) VALUES (1, 'leon', '2017-11-28') ON
 REPLACE 和 INSERT INTO ON DUPLICATE KEY UPDATE 都能够实现在插入数据的时候，主键或者唯一索引重复时，执行 UPDATE 操作，然而它们是有一些区别的：
 
 REPLACE 语句会将记录做删除操作，然后再执行 INSERT 操作。而 INSERT INTO ON DUPLICATE KEY UPDATE 只会执行 UPDATE 操作。因此 REPLACE 操作的资源消耗更高，我们应该尽量使用后者。
-
-
-
-

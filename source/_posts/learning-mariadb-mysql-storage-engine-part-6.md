@@ -1,4 +1,4 @@
-title: learing mariadb & mysql-storage-engine(part-6)
+title: learning mariadb & mysql-storage-engine(part-6)
 date: 2018-01-22 15:26:49
 categories: programming
 tags:
@@ -224,6 +224,11 @@ database_pages: 3089
 ```
 
 ##### LRU List 、 Free List 和 Flush List
+
+参考链接：
+http://www.cnblogs.com/geaozhang/p/7276802.html
+http://jockchou.github.io/blog/2015/07/23/innodb-buffer-pool.html
+http://blog.csdn.net/jerry____wang/article/details/53907649
 
 通常情况下，数据库缓冲池是通过 LRU （ Latest Recent Used 最近最少使用）算法来进行管理的。即最频繁使用的页放在 LRU 列表的顶端，而最少使用的页放在 LRU 列表的末端。当缓冲池由于空间占满了之后，无法再存取新的页时，就首先会释放掉 LRU 列表末端的页。
 

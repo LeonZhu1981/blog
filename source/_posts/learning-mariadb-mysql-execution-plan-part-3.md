@@ -1,4 +1,4 @@
-title: learing mariadb & mysql-execution plan(part-3)
+title: learning mariadb & mysql-execution plan(part-3)
 date: 2017-11-30 17:11:32
 categories: programming
 tags:

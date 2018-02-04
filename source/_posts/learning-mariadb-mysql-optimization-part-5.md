@@ -464,7 +464,7 @@ explain select * from employees where last_name='Action' AND first_name like '%s
 
 假设有这样一段 SQL ： `select first_name, emp_no from employees;`， employees 表的索引为：first_name， emp_no 为主键。“多范围读”的优化原理如下图所示：
 
-![MRR](http://static.zhuxiaodong.net/blog/static/images/mrr.png)
+![MRR](http://static.zhuxiaodong.net/blog/static/images/MRR.png)
 
 首先通过索引读取 employees 表的 first_name 和 emp_no 主键，并复制到 MRR 缓冲中进行排序，然后根据排好序的主键顺序批量读取数据文件当中的记录。
 
