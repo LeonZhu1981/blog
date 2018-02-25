@@ -47,10 +47,10 @@ tags:
 在哪里可以找到这个iOS模拟器包？
 
 首先在xcode项目导航的Products目录下，Show in Finder。
-![products-show-in-finder](http://static.zhuxiaodong.net/blog/static/images/products-show-in-finder.png)
+![products-show-in-finder](https://www.zhuxiaodong.net/static/images/products-show-in-finder.png)
 
 对应的.app文件我们需要的能够在iOS模拟器上正常运行的包文件.
-![debug-simulator](http://static.zhuxiaodong.net/blog/static/images/debug-simulator.png)
+![debug-simulator](https://www.zhuxiaodong.net/static/images/debug-simulator.png)
 
 > 注意：普通的ipa包虽然也可以通过下面所描述的方式安装到模拟器上，但是一运行就会闪退，原因是由于ipa包编译是使用的ARM架构，而非X86架构。
 

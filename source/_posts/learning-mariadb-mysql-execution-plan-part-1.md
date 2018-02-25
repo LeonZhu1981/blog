@@ -10,7 +10,7 @@ tags:
 ## 体系结构
 ---
 
-![mariadb-architecture](http://static.zhuxiaodong.net/blog/static/images/mariadb-architecture.png)
+![mariadb-architecture](https://www.zhuxiaodong.net/static/images/mariadb-architecture.png)
 
 <!--more-->
 

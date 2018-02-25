@@ -68,14 +68,14 @@ Heap
 
 参考下图，对象object5，object6，object7没有GC Root的引用，因此被称为不可达对象，它们将被GC回收：
 
-![reachability-analysis](http://static.zhuxiaodong.net/blog/static/images/reachability-analysis.png)
+![reachability-analysis](https://www.zhuxiaodong.net/static/images/reachability-analysis.png)
 
 再来看一张图（关于StrongReference，SoftReference，WeakReference，PhantomReference的内容，后续会进行讲解）。从GC Root到达一个对象往往会存在多个引用路径，这个时候垃圾回收器会根据两个原则来判断对象是否可达：
 * 引用的强弱关系为：Strong > Soft > Weak > Phantom
 * 单一路径中，以最弱的引用为准
 * 多路径中，以最强的引用为准
 
-![mutil-reference](http://static.zhuxiaodong.net/blog/static/images/mutil-reference.png)
+![mutil-reference](https://www.zhuxiaodong.net/static/images/mutil-reference.png)
 
 上述图中，obj4存在3个引用路径，分别是1 -> 6，2 -> 5，3 -> 4，根据多路径中以最强的引用为准的原则，2 -> 5都是强引用。如果仅仅存在一个路径对Obj4有引用时，比如现在只剩1->6，那么根对象到Obj4的引用就是以最弱的为准，就是SoftReference引用，Obj4就是softly-reachable对象。
 
@@ -215,7 +215,7 @@ mark(obj){
 ```
 标记还是比较简单的。也就是遍历每一个根节点，由于每个根节点是一个树，这个时候可以采用广度优先算法或者深度优先算法来遍历这棵树，标记出所有的节点。
 
-![mark-sweep](http://static.zhuxiaodong.net/blog/static/images/mark-sweep.png)
+![mark-sweep](https://www.zhuxiaodong.net/static/images/mark-sweep.png)
 
 ### 清除阶段
 

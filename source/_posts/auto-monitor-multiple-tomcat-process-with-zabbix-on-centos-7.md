@@ -34,17 +34,17 @@ CATALINA_OPTS="$CATALINA_OPTS -Dcom.sun.management.jmxremote -Dcom.sun.managemen
 
 step 2： 打开 jconsole ，输入远程连接 JMX 机器的 IP 和 Port
 
-![jconsole-1](http://static.zhuxiaodong.net/blog/static/images/jconsole-1.png)
+![jconsole-1](https://www.zhuxiaodong.net/static/images/jconsole-1.png)
 
 step 3： 连接了之后，选择 Mbean tab 页，我们能看到左边一颗树型菜单中列出了当前 JMX 中所有的 Mbean 对象。
 
-![jconsole-2](http://static.zhuxiaodong.net/blog/static/images/jconsole-2.png)
+![jconsole-2](https://www.zhuxiaodong.net/static/images/jconsole-2.png)
 
 我们关注的是 Mbean 当中的 ObjectName ，例如上述图中的: java.lang:type=Threading
 
 step 4： 展开 Attributes 之后，我们能够看到该类别下具体属性和对应的监控数据。
 
-![jconsole-3](http://static.zhuxiaodong.net/blog/static/images/jconsole-3.png)
+![jconsole-3](https://www.zhuxiaodong.net/static/images/jconsole-3.png)
 
 例如上述图中的: java.lang:type=Threading 下的 ThreadCount attribute
 
@@ -52,7 +52,7 @@ step 4： 展开 Attributes 之后，我们能够看到该类别下具体属性�
 
 我们以 Qiueer-Template JVM Generic Basic.xml 模板中的 "[$3] mem Heap Memory used" Item prototypes 为例
 
-![zabbix-item-prototypes-1](http://static.zhuxiaodong.net/blog/static/images/zabbix-item-prototypes-1.png)
+![zabbix-item-prototypes-1](https://www.zhuxiaodong.net/static/images/zabbix-item-prototypes-1.png)
 
 可以看到，其实最关键的部分就是 Key ：
 
@@ -66,17 +66,17 @@ jmx.jvm.item["{ObjectName}",{AttributeName}.{ItemName},{JVMPORT}]
 
 * {ObjectName} ： 与我们在 jconsole 当中看到的 Mbean ObjectName一致。
 
-![jconsole-4](http://static.zhuxiaodong.net/blog/static/images/jconsole-4.png)
+![jconsole-4](https://www.zhuxiaodong.net/static/images/jconsole-4.png)
 
 
 * {AttributeName} ：即 MbeanAttributeInfo 的 Name
 
-![jconsole-5](http://static.zhuxiaodong.net/blog/static/images/jconsole-5.png)
+![jconsole-5](https://www.zhuxiaodong.net/static/images/jconsole-5.png)
 
 * {ItemName} ： 
 某些 MbeanAttributeInfo 的类型是 javax.management.openmbean.CompositeData 复杂结构（我们可以理解为数组），这种情况下，需要再指定 {ItemName} 才能够获取到监控数据。例如下图当中，我们需要获取到 Metaspace 的 Usage 下的 committed 数据，committed 即是 {ItemName}
 
-![jconsole-6](http://static.zhuxiaodong.net/blog/static/images/jconsole-6.png)
+![jconsole-6](https://www.zhuxiaodong.net/static/images/jconsole-6.png)
 
 
 * {JVMPORT} ：这个参数变量其实与 JMX Mbean 无关，只是为了在 Zabbix 当中监控一台机器上的多个 JVM 进程时，通过 JVM PORT 来进行对 Zabbix Item Key进行区分。（Zabbix 当中要求每一个 Item 的 Key 不能重复）
@@ -136,20 +136,20 @@ java -jar cmdline-jmxclient-0.10.3.jar - lab-web01:8040 Catalina:type=GlobalRequ
 step 1：
 在 Qiueer-Template JVM Generic Basic 模板的 Item prototypes 下，选择一个合适的 Item prototype，clone 出一个新的 Item prototype。这里我们选择的是对 [{JVMPORT}] mp Code Cache used 进行 clone 操作。
 
-![zabbix-item-prototypes-clone](http://static.zhuxiaodong.net/blog/static/images/zabbix-item-prototypes-clone.png)
+![zabbix-item-prototypes-clone](https://www.zhuxiaodong.net/static/images/zabbix-item-prototypes-clone.png)
 
 step 2：
 在 clone 出的新 Item 中，修改 Key 值为：
 jmx.jvm.item["java.lang:type=MemoryPool,name=Metaspace",Usage.used,{JVMPORT}] ；修改 Name 值为：[$3] mp Metaspace used
 
-![zabbix-item-prototypes-2](http://static.zhuxiaodong.net/blog/static/images/zabbix-item-prototypes-2.png)
+![zabbix-item-prototypes-2](https://www.zhuxiaodong.net/static/images/zabbix-item-prototypes-2.png)
 
 step 3：
 重复步骤1和2，添加 Usage.max ， Usage.committed 的数据。
 
 完成了之后，我们可以在 Monitor --> Latest data 当中获取到相关的 Metaspace 数据。
 
-![zabbix-latest-data-1](http://static.zhuxiaodong.net/blog/static/images/zabbix-latest-data-1.png)
+![zabbix-latest-data-1](https://www.zhuxiaodong.net/static/images/zabbix-latest-data-1.png)
 
 # Issue 2
 ---
@@ -255,8 +255,8 @@ Catalina:type=Manager,host=localhost,context=/
 
 通过 Host -> Item 查看 Application 为 Tomcat 和 Sessions 类别中，只有很少量的 Item 显示为 “Not supported”
 
-![zabbix-host-item-filter-1](http://static.zhuxiaodong.net/blog/static/images/zabbix-host-item-filter-1.png)
+![zabbix-host-item-filter-1](https://www.zhuxiaodong.net/static/images/zabbix-host-item-filter-1.png)
 
 在 Monitor -> Latest data 中，Tomcat 相关的 Application 也能够正确地获取到数据
 
-![zabbix-lastest-data-tomcat](http://static.zhuxiaodong.net/blog/static/images/zabbix-lastest-data-tomcat.png)
+![zabbix-lastest-data-tomcat](https://www.zhuxiaodong.net/static/images/zabbix-lastest-data-tomcat.png)

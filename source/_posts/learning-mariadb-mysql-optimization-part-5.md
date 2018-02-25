@@ -64,7 +64,7 @@ explain select emp_no, first_name, last_name from employees order by first_name;
 
 上述查询会读取 employees 表的排序列和非排序列全部读入排序缓冲中，进行排序处理，最后直接输出排序缓冲中的所有内容。
 
-![single-pass-sort](http://static.zhuxiaodong.net/blog/static/images/single-pass-sort.png)
+![single-pass-sort](https://www.zhuxiaodong.net/static/images/single-pass-sort.png)
 
 * 两遍扫描算法（ Two pass ）
 
@@ -137,7 +137,7 @@ explain select * from employees e inner join salaries s on e.emp_no = s.emp_no w
 * 使用 last_name 列对检索结果进行了排序（ Filesort ）。
 * 依次读取排好序的结果，与 Salaries 表进行连接，最终获得86条记录。
 
-![sort_buffer](http://static.zhuxiaodong.net/blog/static/images/sort_buffer.png)
+![sort_buffer](https://www.zhuxiaodong.net/static/images/sort_buffer.png)
 
 #### 使用临时表排序
 
@@ -464,7 +464,7 @@ explain select * from employees where last_name='Action' AND first_name like '%s
 
 假设有这样一段 SQL ： `select first_name, emp_no from employees;`， employees 表的索引为：first_name， emp_no 为主键。“多范围读”的优化原理如下图所示：
 
-![MRR](http://static.zhuxiaodong.net/blog/static/images/MRR.png)
+![MRR](https://www.zhuxiaodong.net/static/images/MRR.png)
 
 首先通过索引读取 employees 表的 first_name 和 emp_no 主键，并复制到 MRR 缓冲中进行排序，然后根据排好序的主键顺序批量读取数据文件当中的记录。
 
@@ -782,7 +782,7 @@ select * from dept_emp de, employees e where de.from_date > '2000-01-01' and e.e
 
 如果不使用连接缓冲的情况下，假设 dept_emp 为驱动表， employees 为被驱动表，其执行过程如下图所示：
 
-![non-join-buffer](http://static.zhuxiaodong.net/blog/static/images/non-join-buffer.png)
+![non-join-buffer](https://www.zhuxiaodong.net/static/images/non-join-buffer.png)
 
 对于 dept_emp 数据表中满足 from_date > '2000-01-01' 条件的每条记录，都要从 employees 数据表获取满足 emp_no < 109004 条件的 99003 条记录。对于 dept_emp 数据表的每条记录, 读取 employees 表虽然每次从被驱动表获取的结果是一样的，但是仍然需要执行 10616 次，这无疑是十分低效的做法。
 
@@ -806,7 +806,7 @@ explain select * from dept_emp de, employees e where de.from_date > '2000-01-01'
 * 将步骤3中检索的结果与步骤2中存入连接缓冲的记录连接后，将结果返回给用户。
 * 如果首次读取的表结果太多而无法全部存入 join buffer ，则会反复执行上述 1 ~ 4 步。
 
-![using-join-buffer](http://static.zhuxiaodong.net/blog/static/images/using-join-buffer.png)
+![using-join-buffer](https://www.zhuxiaodong.net/static/images/using-join-buffer.png)
 
 MariaDB 5.3 开始修改了存储在连接缓冲中的记录格式，新格式主要有以下优点：
 
@@ -836,7 +836,7 @@ explain select * from dept_emp de, departments d where d.dept_no=de.dept_no;
 
 散列连接大致可分为创建阶段（ Build phase ）与探测阶段（ Probe phase ）。创建阶段会使用记录较少的数据表，读取所选数据表的记录，计算连接数据列的 Hash 值，并创建的 Hash 表。探测阶段会扫描其余的数据表，同样创建连接列的 Hash 值，并在创建阶段生成的散列表中进行检索，得到最终连接结果。在散列连接中，由于使用与连接列值长度无关的连接列的散列值进行检索，所以它的处理效率会比嵌套循环连接更快的处理速度。
 
-![hash-join](http://static.zhuxiaodong.net/blog/static/images/hash-join.png)
+![hash-join](https://www.zhuxiaodong.net/static/images/hash-join.png)
 
 散列连接创建阶段生成的散列表存储到连接缓冲中（ join_buffer_size ）。若创建阶段的数据表太大，生成的散列表比连接缓冲大， MariaDB 服务器就会将创建阶段与探测极端切分为多个小的单位，并多次执行。因此，创建阶段使用的数据表记录很多，可以将连接缓冲（ join_buffer_size ）适当设置得大一些，有助于提高处理性能。
 

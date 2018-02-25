@@ -110,7 +110,7 @@ InnoDB 存储引擎有多个内存块，由这些内存块组成了一个大的�
 
 从下图我们可以看到，InnoDB 存储引擎主要是由 若干后台线程、内存池、物理文件组成。
 
-![innodb-arch](http://static.zhuxiaodong.net/blog/static/images/innodb-arch.png)
+![innodb-arch](https://www.zhuxiaodong.net/static/images/innodb-arch.png)
 
 #### 后台线程
 
@@ -199,7 +199,7 @@ show variables like 'innodb_buffer_pool_size';
 
 缓冲池中缓存数据页分为了：索引页、数据页、 undo 页、插入缓冲（ insert buffer ）、自适应哈希索引（ adaptive hash index ）、锁信息（ lock info ）、数据字典信息（ data dictionary ）。
 
-![innodb-buffer-pool-page](http://static.zhuxiaodong.net/blog/static/images/innodb-buffer-pool-page.png)
+![innodb-buffer-pool-page](https://www.zhuxiaodong.net/static/images/innodb-buffer-pool-page.png)
 
 从 InnoDB 1.0.x 版本开始，允许设置多个缓冲池实例。每个页根据 hash 值平均分配到不同缓冲池实例中。这样做的目的是减少数据库内部的资源竞争，增加数据库的并发处理能力。可以通过 innodb_buffer_pool_instances 来进行配置，默认值为 1 。
 
@@ -781,7 +781,7 @@ insert 表示 Insert Buffer 的次数；delete mark 表示 Delete Buffer 的次�
 
 Double Write 由两部分组成，一部分是内存当中的 doublewrite buffer ，大小为 2MB ，另一部分是物理磁盘上共享表空间中连续的 128 个页，即两个 extent ，大小也为 2MB 。在对缓冲池的脏页进行刷新时，并不直接写磁盘，而是会通过 memcpy 将脏页先复制到内存中的 doublewrite buffer 中，再分两次，每次以 1MB 顺序地写入共享表空间的物理磁盘上，然后马上调用 fsync ，同步磁盘。
 
-![double-write](http://static.zhuxiaodong.net/blog/static/images/double-write.png)
+![double-write](https://www.zhuxiaodong.net/static/images/double-write.png)
 
 Innodb_dblwr_pages_written 表示总共写入的页数量， Innodb_dblwr_writes 表示实际的写入数。
 
@@ -864,7 +864,7 @@ update member set m_area = '京' where m_id=12;
 
 执行上述 update 语句后，即使不实行 commit ， member 表的列也立即被修改为 '京' 。但是， InnoDB 存储引擎无法得知用户执行 update 语句后是执行 rollback 操作还是 commit 操作。因此，为了应对用户可能进行 rollback 操作的情形，先要将修改为 '京' 之前的值 （'首尔'） 保存到某一个地方。
 
-![innodb-buffer-undo-log](http://static.zhuxiaodong.net/blog/static/images/innodb-buffer-undo-log.png)
+![innodb-buffer-undo-log](https://www.zhuxiaodong.net/static/images/innodb-buffer-undo-log.png)
 
 上述图描述了在执行 update 语句之后，进行 commit 或 rollback 之前 InnoDB 缓冲池与磁盘数据文件的状态。
 
@@ -940,7 +940,7 @@ innodb_buffer_pool_dump_now 和 innodb_buffer_pool_load_now 有一个非常有�
 
 为了确保在服务器崩溃时保证数据安全，InnoDB 存储引擎首先会将提交的事务内容记录到日志文件，而将数据的实际修改放在后面以批处理的方式来进行处理。这被称为 Redo-Log，或 WAL （ Write Ahead Log 预写式日志）。 InnoDB 的重做日志是以一种循环的方式来使用多个文件的。
 
-![redo-log](http://static.zhuxiaodong.net/blog/static/images/redo-log.png)
+![redo-log](https://www.zhuxiaodong.net/static/images/redo-log.png)
 
 以下3个系统变量可以设置 InnoDB 中的日志文件：
 

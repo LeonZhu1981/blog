@@ -134,7 +134,7 @@ O(n²)<O(n³)<O(2^n)<O(k^n)<O(n!)
 进入到leetcode网站之后，需要先完成注册和邮箱验证，然后就可以开始你的刷题之旅了。
 
 首先搜索我们此次需要分析的题目:
-![leetcode-subarray](http://static.zhuxiaodong.net/blog/static/images/leetcode-subarray.png)
+![leetcode-subarray](https://www.zhuxiaodong.net/static/images/leetcode-subarray.png)
 
 ### 题目描述: [here](https://leetcode.com/problems/maximum-subarray/#/description)
 > Find the contiguous subarray within an array (containing at least one number) which has the largest sum.
@@ -165,12 +165,12 @@ public class Solution {
 ```
 
 上述代码在执行Run Code之后, 显示结果正确:
-![leetcode-runcode1](http://static.zhuxiaodong.net/blog/static/images/leetcode-runcode1.png)
+![leetcode-runcode1](https://www.zhuxiaodong.net/static/images/leetcode-runcode1.png)
 
 但是再执行Submit Solution时，会发现以下的错误：
-![sumbit-code1](http://static.zhuxiaodong.net/blog/static/images/submit-code1.png)
+![sumbit-code1](https://www.zhuxiaodong.net/static/images/submit-code1.png)
 
-![submit-code2](http://static.zhuxiaodong.net/blog/static/images/submit-code2.png)
+![submit-code2](https://www.zhuxiaodong.net/static/images/submit-code2.png)
 
 原因是我们没有考虑到该题目并没有说sum最大值必须是正整数，因此，我们需要修改上面的代码，调整为int的最小值。
 
@@ -179,7 +179,7 @@ int result = Integer.MIN_VALUE;
 ```
 
 此时，我们再次提交代码之后，会发现如下的错误提示：
-![submit-code3](http://static.zhuxiaodong.net/blog/static/images/submit-code3.png)
+![submit-code3](https://www.zhuxiaodong.net/static/images/submit-code3.png)
 
 leetcode提示该算法再计算一个较大范围的数组时，执行时间过长。其实我们分析代码不难看出，暴力解法采用了3次for循环，算法的时间复杂度为：**O(n³)**，这显然不是一个很好的解法。
 
@@ -233,5 +233,5 @@ public class Solution {
 
 最终算法复杂度被优化为O(n)。
 
-![submit-code4](http://static.zhuxiaodong.net/blog/static/images/submit-code4.png)
+![submit-code4](https://www.zhuxiaodong.net/static/images/submit-code4.png)
 

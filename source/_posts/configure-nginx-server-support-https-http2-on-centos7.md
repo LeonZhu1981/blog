@@ -637,7 +637,7 @@ location /access-status {
 }
 ```
 >    访问/access-status页面, 能看到如下的一些基本监控信息
-![nginx-stub-module](http://static.zhuxiaodong.net/blog/static/images/nginx-stub-module.png)
+![nginx-stub-module](https://www.zhuxiaodong.net/static/images/nginx-stub-module.png)
 
 > 3. upstream check module提供了后端server健康状态监控页面
 ```
@@ -647,7 +647,7 @@ location /check-status {
 }
 ```
 >    访问/check-status页面
-![upstream-check-module](http://static.zhuxiaodong.net/blog/static/images/upstream-check-module.png)
+![upstream-check-module](https://www.zhuxiaodong.net/static/images/upstream-check-module.png)
 
 创建M网站的server配置文件.
 

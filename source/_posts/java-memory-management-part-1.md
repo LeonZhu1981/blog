@@ -12,7 +12,7 @@ tags:
 
 JVM Runtime会将所管理的内存分成若干的数据区域，参考下图：
 
-![jvm-runtime-data-area](http://static.zhuxiaodong.net/blog/static/images/jvm-runtime-data-area.png)
+![jvm-runtime-data-area](https://www.zhuxiaodong.net/static/images/jvm-runtime-data-area.png)
 
 <!--more-->
 
@@ -30,7 +30,7 @@ JVM Runtime会将所管理的内存分成若干的数据区域，参考下图：
 
 * **线程私有**，且与线程的生命周期一致。
 * 描述了Java方法执行的内存模型：每个方法执行时会创建一个Stack Frame，用于存储局部变量表、操作数栈、动态链接、方法入口等。每个方法在从执行开始到结束的过程中，会对应Stack Frame在虚拟机栈中从**入栈**到**出栈**的过程。Stack -> Stack Frame (Local Variable Table/Operand Stack/Dynamic Linking/Return Address)的结构请参考下图:
-![java-stack](http://static.zhuxiaodong.net/blog/static/images/java-stack.png)
+![java-stack](https://www.zhuxiaodong.net/static/images/java-stack.png)
 > 更多关于局部变量表、操作数栈、动态链接、方法入口的知识，会在后续的章节当中介绍。
 * 定义了2种内存异常：
 	* 如果请求的栈深度大于虚拟机允许的深度，将会抛出StackOverflowError异常。

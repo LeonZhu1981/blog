@@ -10,11 +10,11 @@ author: leon.x.zhu
 # language: zh-Hans
 language: zh-Hans
 email: leon.x.zhu@gmail.com
-timezone: 
+timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://www.zhuxiaodong.net/
+url: https://www.zhuxiaodong.net/
 root: /
 permalink: :year/:title/   # :year/:month/:day/:title/
 permalink_defaults:
@@ -108,9 +108,9 @@ qiniu:
   urlPrefix: http://static.zhuxiaodong.net/blog/static
   local_dir: /Users/leonzhu/work/private/blog/public/static/
   update_exist: true
-  image: 
+  image:
     folder: images
-    extend: 
+    extend:
   js:
     folder: js
   css:

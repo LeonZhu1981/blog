@@ -26,7 +26,7 @@ tags:
 
 ## 报文详解
 ---
-![ARP报文格式](http://static.zhuxiaodong.net/blog/static/images/arp-datagram.png)
+![ARP报文格式](https://www.zhuxiaodong.net/static/images/arp-datagram.png)
 
 * 硬件类型字段定义物理地址的类型，它的值为1表示MAC地址。
 * 协议类型字段表示要映射的协议地址类型，它的值为0x800，表示IP地址。
@@ -42,7 +42,7 @@ tags:
 ```
 sudo arp -a
 ```
-![linux下查看ARP缓存](http://static.zhuxiaodong.net/blog/static/images/arp-a.png)
+![linux下查看ARP缓存](https://www.zhuxiaodong.net/static/images/arp-a.png)
 * 上述该命令是在我的linux VM上执行.
 * 第一行是我的mac os x的IP(10.211.55.2)地址与mac address(00:1c:42:00:00:08), 可以看到, 这个映射关系是被缓存了的.
 * 第二行是我的windows 7机器的IP(10.211.55.3)地址与mac address(incomplete), 可以看到, 这个映射关系目前还没有被缓存.
@@ -55,7 +55,7 @@ sudo arp -s 10.211.55.3 00:1c:42:d3:07:ec  #手动添加或修改
 ```
 
 使用-s手动添加的ARP cache, 会标识为PERM.
-![linux下修改/删除ARP缓存](http://static.zhuxiaodong.net/blog/static/images/arp-s.png)
+![linux下修改/删除ARP缓存](https://www.zhuxiaodong.net/static/images/arp-s.png)
 
 更多请参考: [http://www.kwx.gd/CentOSApp/centos-arp-bind.html](http://www.kwx.gd/CentOSApp/centos-arp-bind.html)
 
@@ -69,7 +69,7 @@ sudo arp -s 10.211.55.3 00:1c:42:d3:07:ec  #手动添加或修改
 sudo vi /etc/xinetd.d/echo-stream
 ```
 2. 修改disable = no.
-  ![echo-stream-conf](http://static.zhuxiaodong.net/blog/static/images/echo-stream-conf.png)
+  ![echo-stream-conf](https://www.zhuxiaodong.net/static/images/echo-stream-conf.png)
 3. 启动或者重启xinetd daemon程序
 ```
 sudo systemctl start xinetd
@@ -81,7 +81,7 @@ sudo firewall-cmd --zone=public --add-port=7/tcp --permanent
 sudo firewall-cmd --reload
 ```
 5. 测试: mac os x机器上telnet, 输入什么, 就会显示什么.
-![echo-service-test](http://static.zhuxiaodong.net/blog/static/images/echo-service-test.png)
+![echo-service-test](https://www.zhuxiaodong.net/static/images/echo-service-test.png)
 
 **实际抓包测试**:
 1. 先删除在mac os x机器上删除对centos 7的arp缓存记录.
@@ -94,7 +94,7 @@ sudo arp -d 10.211.55.4
 sudo arp -a
 ```
 PS: mac os x与linux的呈现方式还不一样, linux下是incomplete, mac下是根本都不显示出来.
-![arp-a-2](http://static.zhuxiaodong.net/blog/static/images/arp-a-2.png)
+![arp-a-2](https://www.zhuxiaodong.net/static/images/arp-a-2.png)
 
 3. mac下开启另外一个终端, 用tcpdump抓包.
 ```
@@ -118,7 +118,7 @@ telnet 10.211.55.4 7
 2. 第二个数据包当中的00:1c:42:ad:60:ec是IP(10.211.55.4)的目标机器mac address, Reply 10.211.55.4 is-at 00:1c:42:ad:60:ec表示是一个ARP reply.
 
 **完整的通信过程**:
-![ARP协议的通信过程](http://static.zhuxiaodong.net/blog/static/images/arp-c.png)
+![ARP协议的通信过程](https://www.zhuxiaodong.net/static/images/arp-c.png)
 
 
 

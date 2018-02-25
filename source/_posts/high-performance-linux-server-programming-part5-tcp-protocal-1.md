@@ -34,8 +34,8 @@ tags:
 综上所述, 发送端执行的写操作次数和接收端执行的读操作次数之间没有任何数量关系, 这就是字节流的概念：应用程序对数据的发送和接收是没有边界限制的.UDP则不然.发送端应用程序每执行一次写操作, UDP模块就将其封装成一个UDP数据报并发送之.接收端必须及时针对每一个UDP数据报执行读操作(通过recvfrom系统调用), 否则就会丢包(这经常发生在较慢的服务器上).并且, 如果用户没有指定足够的应用程序缓冲区来读取UDP数据, 则UDP数据将被截断.
 
 下面的2个图示说明了基于数据流的TCP协议与基于数据报的UDP协议的具体区别:
-![tcp-baseon-stream](http://static.zhuxiaodong.net/blog/static/images/tcp-baseon-stream.jpg)
-![udp-baseon-datagram](http://static.zhuxiaodong.net/blog/static/images/udp-baseon-datagram.jpg)
+![tcp-baseon-stream](https://www.zhuxiaodong.net/static/images/tcp-baseon-stream.jpg)
+![udp-baseon-datagram](https://www.zhuxiaodong.net/static/images/udp-baseon-datagram.jpg)
 
 **传输的可靠性**:
 1. TCP协议采用发送应答机制, 即发送端发送的每个TCP报文段都必须得到接收方的应答, 才认为这个TCP报文段传输成功.
@@ -46,7 +46,7 @@ tags:
 <!--more-->
 ## TCP头部结构
 ---
-![tcp-header](http://static.zhuxiaodong.net/blog/static/images/tcp-header.jpg)
+![tcp-header](https://www.zhuxiaodong.net/static/images/tcp-header.jpg)
 
 * 16位端口号(port number): 告知主机该报文段是来自哪里(源端口)以及传给哪个上层协议或应用程序(目的端口)的.进行TCP通信时, 客户端通常使用系统自动选择的临时端口号, 而服务器则使用知名服务端口号(参考/etc/services中的定义).
 
@@ -74,7 +74,7 @@ tags:
 ---
 
 TCP头部的最后一个字段是可选并且是可变长的选项字段,  它最多包含40字节(60[TCP Header max size] - 20[TCP header fixed part size]),  其结构请参考下图:
-![tcp-header-options](http://static.zhuxiaodong.net/blog/static/images/tcp-header-options.jpg)
+![tcp-header-options](https://www.zhuxiaodong.net/static/images/tcp-header-options.jpg)
 
 分为了3部分:
 * kind(1 byte): 标识选项的类型,  某些tcp选项只包含了kind字段,  而不包括length和info字段.
@@ -82,7 +82,7 @@ TCP头部的最后一个字段是可选并且是可变长的选项字段,  它�
 * info: 标识了具体内容.
 
 常见的TCP选项有7种: 
-![tcp-header-options-type](http://static.zhuxiaodong.net/blog/static/images/tcp-header-options-type.jpg)
+![tcp-header-options-type](https://www.zhuxiaodong.net/static/images/tcp-header-options-type.jpg)
 
 1. kind=0: 表示结束选项.
 2. kind=1: 是空操作(nop)选项, 没有特殊含义, 一般用于将TCP选项的总长度填充为4字节的整数倍.
@@ -141,7 +141,7 @@ IP 127.0.0.1.56616 > 127.0.0.1.telnet: Flags [S],  seq 461096030,  win 43690,  o
 
 **上文中0x002为什么表示标识字段(Control bits)的值为SYN?**:
 0x002当中前6 bit为保留字段,  后6 bit才是标记字段. 因此转换为2进制的值为: 000010,  第二位为1,  因此表示SYN. 下图为wireshark抓取的示例:
-![tcp-header-flags-sync](http://static.zhuxiaodong.net/blog/static/images/tcp-header-flags-sync.jpg)
+![tcp-header-flags-sync](https://www.zhuxiaodong.net/static/images/tcp-header-flags-sync.jpg)
 
 完整的定义参考[RFC 7125](https://tools.ietf.org/html/rfc7125):
 ```
@@ -255,7 +255,7 @@ telnet> quit
 ## TCP半关闭状态(TCP Half-Close)
 ---
 TCP连接是全双工的, 允许两个方向的数据传输被独立关闭.通信的一端可以发送结束报文段给对方, 告诉它本端已经完成了数据的发送, 但允许继续接收来自对方的数据, 直到对方也发送结束报文段以关闭连接.TCP连接的这种状态称为半关闭(half close)状态,  参考下图:
-![tcp-half-close](http://static.zhuxiaodong.net/blog/static/images/tcp-half-close.jpg)
+![tcp-half-close](https://www.zhuxiaodong.net/static/images/tcp-half-close.jpg)
 
 服务器和客户端应用程序判断对方是否已经关闭连接的方法是：read系统调用返回0(收到结束报文段),  此外,  socket网络编程接口中通过shutdown函数提供了对半关闭状态的支持.
 

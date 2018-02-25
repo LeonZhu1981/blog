@@ -38,7 +38,7 @@ tags:
 ---
 
 ```
-# coding=utf-8 
+# coding=utf-8
 
 def find_smallest(arr):
     smallest = arr[0]
@@ -166,7 +166,7 @@ output:
 
 冒泡排序的基本思想是，对相邻的元素进行两两比较，顺序相反则进行交换，这样，每一趟会将最小或最大的元素“浮”到顶端，最终达到完全有序。
 
-![bubble-sort](http://static.zhuxiaodong.net/blog/static/images/bubble-sort.png)
+![bubble-sort](https://www.zhuxiaodong.net/static/images/bubble-sort.png)
 
 ## 算法复杂度：
 ---
@@ -181,7 +181,7 @@ output:
 ---
 
 ```
-# coding=utf-8 
+# coding=utf-8
 
 def bubble_sort(array):
 	for i in range(len(array) - 1, 0, -1):
@@ -244,7 +244,7 @@ public class BubbleSort {
                     temp = array[j];
                     array[j] = array[j + 1];
                     array[j + 1] = temp;
-                    flag = false; 
+                    flag = false;
                 }
             }
             if (flag) {
@@ -305,7 +305,7 @@ public class BubbleSort {
 [1, 2, 3, 5, 6, 7, 8]  4
          ↑             │
          └─────────────┘
- 
+
 [1, 2, 3, 4, 5, 6, 7, 8]
 ```
 
@@ -323,7 +323,7 @@ public class BubbleSort {
 ---
 
 ```
-# coding=utf-8 
+# coding=utf-8
 
 def insertion_sort(array):
     if len(array) == 1:
@@ -404,4 +404,3 @@ public class InsertionSort {
     }
 }
 ```
-

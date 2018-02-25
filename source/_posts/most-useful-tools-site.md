@@ -1,7 +1,7 @@
 title: 我收藏的常用工具和网站
 date: 2016-08-31 14:08:26
 categories: programming
-tags: 
+tags:
 - tools
 ---
 
@@ -55,7 +55,7 @@ ctrl + r: bck-i-search/reverse-i-search, 输入关键字搜索历史命令
 
 ```
 # 用 yum 去安装本地组件，并自动地检查／满足依赖性
-yum --nogpgcheck localinstall packagename.arch.rpm 
+yum --nogpgcheck localinstall packagename.arch.rpm
 ```
 
 [**Linux各个版本的源代码在线阅读**](http://elixir.free-electrons.com/linux/v2.6.39.4/source)
@@ -116,11 +116,11 @@ https://github.com/jaywcjlove/awesome-mac
 
 ## 2的n次幂速算表:
 
-![2-n-table](http://static.zhuxiaodong.net/blog/static/images/2-n-table.png)
+![2-n-table](https://www.zhuxiaodong.net/static/images/2-n-table.png)
 
 ## most tech in interview:
 
-![most-userful-tech-stack](http://static.zhuxiaodong.net/blog/static/images/most-userful-tech-stack.png)
+![most-userful-tech-stack](https://www.zhuxiaodong.net/static/images/most-userful-tech-stack.png)
 
 ## Front-end checklist:
 
@@ -130,3 +130,8 @@ https://github.com/jaywcjlove/awesome-mac
 
 [**这是**](https://github.com/shimohq/chinese-programmer-wrong-pronunciation): github上一个有趣的项目，帮助大家纠正常见技术词汇的错误发音，本质上是通过调用有道词典的：http://dict.youdao.com/dictvoice?audio={传入的单词}&type=1
 
+## SSL
+
+[https://mozilla.github.io/server-side-tls/ssl-config-generator/](https://mozilla.github.io/server-side-tls/ssl-config-generator/) : Mozilla SSL Configuration Generator 集成了常见的 web 服务器的 SSL 相关配置，包括 nginx apache HAProxy 等。
+
+[https://wiki.mozilla.org/Security/Server_Side_TLS](https://wiki.mozilla.org/Security/Server_Side_TLS) : mozilla 发布的关于 TLS 相关规范建议。

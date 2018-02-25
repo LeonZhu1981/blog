@@ -11,7 +11,7 @@ keywords: "程序员,Programmer,golang,nodejs,java,c,python,或许未必不过,l
 # Set rss to false to disable feed link.
 # Leave rss as empty to use site's feed link.
 # Set rss to specific value if you have burned your feed already.
-rss: http://www.zhuxiaodong.net/atom.xml
+rss: https://www.zhuxiaodong.net/atom.xml
 
 # Specify the date when the site was setup
 since: 2015
@@ -87,7 +87,7 @@ social_icons:
   Linkedin: linkedin
 
 # Sidebar Avatar
-avatar: http://7i7i6p.com1.z0.glb.clouddn.com/author.jpg
+avatar: https://www.zhuxiaodong.net/static/images/author.jpg
 
 # Social links
 social:

@@ -84,7 +84,7 @@ under the current working directory when the platform is launched.  Use the -dat
 specify a different content area for the platform.
 ```
 
-![mat-error](http://static.zhuxiaodong.net/blog/static/images/mat-error.png)
+![mat-error](https://www.zhuxiaodong.net/static/images/mat-error.png)
 
 step 4：上述错误信息指出，某个本地文件无法写入，按照提示使用-data参数指定working directory的方式并不成功；猜测是由于执行权限的问题，因此改换用sudo的方式执行，就能够成功地运行EMA。
 
@@ -94,15 +94,15 @@ sudo ./mat.app/Contents/MacOS/MemoryAnalyzer
 
 step 5：使用EAM打开对应的dump文件（java_pid<pid>.hprof），由于我们是分析OOM异常，因此选择Leak Suspects Report。
 
-![ema-wizard](http://static.zhuxiaodong.net/blog/static/images/ema-wizard.png)
+![ema-wizard](https://www.zhuxiaodong.net/static/images/ema-wizard.png)
 
 step 6：此时我们能够看到Leak Suspects视图的一些汇总信息，以及stack trace信息，此外还有大对象的引用关系（从列表当中，我们可以很快速地定位到HeapOOM类的OOMObject对象）。
 
-![ema-report-summary](http://static.zhuxiaodong.net/blog/static/images/ema-report-summary.png)
+![ema-report-summary](https://www.zhuxiaodong.net/static/images/ema-report-summary.png)
 
-![ema-report-stack-trace](http://static.zhuxiaodong.net/blog/static/images/ema-report-stack-trace.png)
+![ema-report-stack-trace](https://www.zhuxiaodong.net/static/images/ema-report-stack-trace.png)
 
-![ema-report-list](http://static.zhuxiaodong.net/blog/static/images/ema-report-list.png)
+![ema-report-list](https://www.zhuxiaodong.net/static/images/ema-report-list.png)
 
 # 虚拟机栈和本地方法栈溢出
 ---
@@ -355,7 +355,7 @@ public class JavaMethodAreaOOM {
 ```
 
 我们设置在IDEA当中设置一下JVM的VM options：-XX:PermSize=10M -XX:MaxPermSize=10M，并且使用JDK1.6进行测试。
-![IDEA-setting](http://static.zhuxiaodong.net/blog/static/images/IDEA-setting.png)
+![IDEA-setting](https://www.zhuxiaodong.net/static/images/IDEA-setting.png)
 
 得到的异常信息java.lang.OutOfMemoryError: PermGen space，说明永久代的内存已经溢出。
 

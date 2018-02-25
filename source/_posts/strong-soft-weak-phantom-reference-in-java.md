@@ -81,7 +81,7 @@ Done
 
 java.lang.ref包下，包含了如下的类型：
 
-![java-lang-ref-package](http://static.zhuxiaodong.net/blog/static/images/java-lang-ref-package.png)
+![java-lang-ref-package](https://www.zhuxiaodong.net/static/images/java-lang-ref-package.png)
 
 可以看到SoftReference，WeakReference，PhantomReference，FinalReference都实现了抽象类Reference。JVM在执行GC时，会对这四种类型的采用不同的回收策略。
 

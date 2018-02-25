@@ -148,7 +148,7 @@ Java虚拟机规范只规定了引用类型是一个指向对象的引用，并�
 **句柄访问**：
 Java堆中将会划分出一块内存来作为句柄池，reference中存储的就是对象的句柄地址，而句柄中包含了对象实例数据与类型数据各自的具体地址信息，参考下图：
 
-![handler-access](http://static.zhuxiaodong.net/blog/static/images/handler-access.png)
+![handler-access](https://www.zhuxiaodong.net/static/images/handler-access.png)
 
 * 优点：使用句柄来访问的最大好处就是reference中存储的是稳定的句柄地址，在对象被移动（垃圾收集时移动对象是非常普遍的行为）时只会改变句柄中的实例数据指针，而reference本身不需要修改。
 * 缺点：由于访问对象时，会多一次句柄池的指针定位访问，相对于直接访问来说效率会比较低。
@@ -156,7 +156,7 @@ Java堆中将会划分出一块内存来作为句柄池，reference中存储的�
 **直接指针**：
 Java堆对象的布局中就必须考虑如何放置访问类型数据的相关信息，而reference中存储的直接就是对象地址，参考下图：
 
-![directly-access](http://static.zhuxiaodong.net/blog/static/images/directly-access.png)
+![directly-access](https://www.zhuxiaodong.net/static/images/directly-access.png)
 
 * 优点：相对于句柄访问来说，性能会更高。
 * 缺点：对象被移动时，可能需要对相关联的内存部分进行移动。

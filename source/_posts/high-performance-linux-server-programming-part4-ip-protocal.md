@@ -43,7 +43,7 @@ tags:
 ---
 
 如下图所示:
-![ipv4-header-structure](http://static.zhuxiaodong.net/blog/static/images/ipv4-header-structure.jpg)
+![ipv4-header-structure](https://www.zhuxiaodong.net/static/images/ipv4-header-structure.jpg)
 1. 通常**IP头长度为20字节**, 除非包含可变长度的选项部分.
 2. 4位版本号(version): 指定IP协议的版本.对IPv4来说,其值是4.其他IPv4协议的扩展版本(如SIP协议和PIP协议),则具有不同的版本号, 它们的头部结构也和IPV4的结构不同.
 3. 4位头部长度(header length): 标识该IP头部有多少个32bit字(4字节).因为4位最大能表示15,所以IP头部**最长是60字节**.
@@ -179,9 +179,9 @@ IP数据报的长度超过帧的MTU时,它将被分片传输.分片可能发生�
 
 **以ICMP协议为示例, 讨论IP数据报的分片行为**:
 1. 以太网帧的MTU是1500字节(可以通过ifconfig命令或者netstat命令查看),因此它携带的IP数据报的数据部分最多是1480字节(IP头部占用20字节).以下是通过**ifconfig**查看MTU值的截图:
-![ethernet-mtu](http://static.zhuxiaodong.net/blog/static/images/ethernet-mtu.jpg)
+![ethernet-mtu](https://www.zhuxiaodong.net/static/images/ethernet-mtu.jpg)
 2. 考虑用IP数据报封装一个长度为1481字节的ICMP报文(包括8字节的ICMP头部,所以其数据部分长度为1473字节),则该数据报在使用以太网帧传输时必须被分片,如下图所示.
-![icmp-fragment](http://static.zhuxiaodong.net/blog/static/images/icmp-fragment.jpg)
+![icmp-fragment](https://www.zhuxiaodong.net/static/images/icmp-fragment.jpg)
 3. 上述图示中, 长度为1501字节的IP数据报被拆分成两个IP分片,第一个IP分片长度为1500字节,第二个IP分片的长度为21字节(1501 - 1 + 20[20字节的header长度] = 21 byte).每个IP分片都包含自己的IP头部(20字节),且第一个IP分片的IP头部设置了MF标志(More Fragment表示还包含更多分片),而第二个IP分片的IP头部则没有设置该标志,因为它已经是最后一个分片了.原始IP数据报中的ICMP头部内容被完整地复制到了第一个IP分片中.**第二个IP分片不包含ICMP头部信息**,因为IP模块重组该ICMP报文的时候只需要一份ICMP头部信息,重复传送这个信息没有任何益处.1473字节的ICMP报文数据的前1472字节被IP模块复制到第一个IP分片中,使其总长度为1500字节,从而满足MTU的要求, 而多出的最后1字节则被复制到第二个IP分片中.
 4. ICMP报文的头部长度取决于报文的类型,其变化范围很大.本示例中以8字节为例,因为后面的例子用到了ping程序,而ping程序使用的ICMP回显和应答报文的头部长度是8字节.
 
@@ -219,7 +219,7 @@ IP协议的一个核心任务是数据报的路由,即决定发送数据报到�
 
 **How?**:
 IP模块的基本工作流程, 参考下图:
-![ip-workflow](http://static.zhuxiaodong.net/blog/static/images/ip-workflow.jpg)
+![ip-workflow](https://www.zhuxiaodong.net/static/images/ip-workflow.jpg)
 
 我们从右向左进行分析:
 1. 当IP模块接收到来自数据链路层的IP数据报时,它首先对该数据报的头部做CRC校验,确认无误之后就分析其头部的具体信息.
@@ -356,7 +356,7 @@ sudo sysctl -a net.inet.ip.forwarding #view net.inet.ip.forwarding value.
 ---
 
 ICMP重定向的报文格式参考下图:
-![icmp-redirect](http://static.zhuxiaodong.net/blog/static/images/icmp-redirect.jpg)
+![icmp-redirect](https://www.zhuxiaodong.net/static/images/icmp-redirect.jpg)
 我们曾经在[第一章](http://www.zhuxiaodong.net/2016/high-performance-linux-server-programming-part1-tcp-ip-summarize/#%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0)中简要介绍过ICMP协议, 其中8 bit类型字段, 8 bit代码字段, 16 bit校验和为固定字段. 当类型字段值为5时表示重定向.
 
 ICMP重定向报文的数据内容部分, 为接收方提供了2部分信息:
@@ -388,7 +388,7 @@ IPv6协议并不是IPv4协议的简单扩展,而是完全独立的协议.用以�
 IPv6头部由**40字节的固定头部**和**可变长的扩展头部**组成.
 
 1. 固定头部结构:
-![ipv6-fixed-header](http://static.zhuxiaodong.net/blog/static/images/ipv6-fixed-header.jpg)
+![ipv6-fixed-header](https://www.zhuxiaodong.net/static/images/ipv6-fixed-header.jpg)
 
 * 4位版本号(version)指定IP协议的版本.对IPv6来说,**其值是6**.
 * 8位通信类型(traffic class)指示数据流通信类型或优先级, 与IPV4的TOS字段类似.
@@ -404,6 +404,6 @@ IPv6头部由**40字节的固定头部**和**可变长的扩展头部**组成.
 
 2. 扩展头部结构:
 可变长的扩展头部使得IPv6能支持更多的选项,并且很便于将来的扩展需要.它的长度可以是0,表示数据报没使用任何扩展头部.一个数据报可以包含多个扩展头部,每个扩展头部的类型由前一个头部(固定头部或扩展头部)中的下一个报头字段指定.
-![ipv6-extend-header](http://static.zhuxiaodong.net/blog/static/images/ipv6-extend-header.jpg)
+![ipv6-extend-header](https://www.zhuxiaodong.net/static/images/ipv6-extend-header.jpg)
 
 

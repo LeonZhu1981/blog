@@ -716,7 +716,7 @@ explain select first_name, birth_date from employees force index (ix_firstname) 
 
 注意：上述查询中使用了 force index 来强制使用索引 ix_firstname 。
 
-![cover_index_btree](http://static.zhuxiaodong.net/blog/static/images/cover_index_btree.png)
+![cover_index_btree](https://www.zhuxiaodong.net/static/images/cover_index_btree.png)
 
 上图反映了整个查询的过程，首先通过 ix_firstname 在索引叶节点获取到 first_name 列的记录，但是由于 birth_date 上没有建立索引，因此优化器必须通过索引记录上记录的数据文件的指针，二次查询出 birth_date 列的值。记录数越多，二次查询数据文件的成本就越大。因此，最好是一次性就能够从索引文件当中获取出需要的列。
 
@@ -898,7 +898,7 @@ explain select * from employees group by gender order by min(emp_no);
 
 MariaDB 中大致分为了 MariaDB 引擎与存储引擎两层。存储引擎负责从磁盘或内存中进行读写操作；MariaDB 引擎负责加工或运算从存储引擎得到的记录。当 MariaDB 引擎层对数据进行加工和过滤处理时，Extra 列就会显示 `Using where` 。
 
-![extra-using-where](http://static.zhuxiaodong.net/blog/static/images/extra-using-where.png)
+![extra-using-where](https://www.zhuxiaodong.net/static/images/extra-using-where.png)
 
 上述图中，存储引擎总共读取了200条记录，在交由 MariaDB 引擎进行加工和过滤处理，此时，Extra 列就会显示 `Using where` 。
 

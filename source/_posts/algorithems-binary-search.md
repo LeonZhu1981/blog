@@ -178,4 +178,4 @@ private static int binarySearch0(int[] a, int fromIndex, int toIndex,
 * 使用返回值为负数来表示位查找到值。
 
 除此之外， Arrays 类还提供了许多重载版本的方法：
-![java-arrays-binary-search](http://static.zhuxiaodong.net/blog/static/images/java-arrays-binary-search.png)
+![java-arrays-binary-search](https://www.zhuxiaodong.net/static/images/java-arrays-binary-search.png)

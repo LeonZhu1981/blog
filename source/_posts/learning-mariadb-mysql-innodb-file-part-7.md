@@ -473,7 +473,7 @@ ll /data/mysql/3306/data/hms
 
 需要注意的是，这些单独的表空间文件仅存储该表的数据、索引和插入缓冲 BITMAP 等信息，其余信息还是存放在默认的表空间中。
 
-![ibd-arch](http://static.zhuxiaodong.net/blog/static/images/ibd-arch.png)
+![ibd-arch](https://www.zhuxiaodong.net/static/images/ibd-arch.png)
 
 ## 重做日志文件
 

@@ -106,11 +106,11 @@ systemctl restart zabbix-agent
 
 ### step 1：在 Configuration --> Actions 面板下，点击[Create action]，注意: Event source 选择 Auto registration
 
-![zabbix-find-action](http://static.zhuxiaodong.net/blog/static/images/zabbix-find-action.png)
+![zabbix-find-action](https://www.zhuxiaodong.net/static/images/zabbix-find-action.png)
 
 ### step 2：在 action tab 页下，填写创建的名称，以及自动发现的规则。在这里我们将所有 Host name 的字符串中，包含： lab-web 字符的 zabbix agent 能够被自动发现。
 
-![zabbix-create-action-1](http://static.zhuxiaodong.net/blog/static/images/zabbix-create-action-1.png)
+![zabbix-create-action-1](https://www.zhuxiaodong.net/static/images/zabbix-create-action-1.png)
 
 ### step 3：在 Operation tab 页下，填写当自动发现 zabbix agent 了之后，执行的相关操作。在这里，我们执行的操作为：
 
@@ -118,11 +118,11 @@ systemctl restart zabbix-agent
 2. Add to host groups：自动添加至 lab-java-web-server host group 中
 3. Link to template：自动将对应的 host 添加 Template OS Linux 模板
 
-![zabbix-create-action-2](http://static.zhuxiaodong.net/blog/static/images/zabbix-create-action-2.png)
+![zabbix-create-action-2](https://www.zhuxiaodong.net/static/images/zabbix-create-action-2.png)
 
 完成了之后，大概等一定的时间之后（具体的时间间隔根据 zabbix_agentd.conf 配置文件当中的：RefreshActiveChecks=60 节点值来决定）， 就能够看到对应的 Host 已经被自动添加。
 
-![zabbix-create-action-3](http://static.zhuxiaodong.net/blog/static/images/zabbix-create-action-3.png)
+![zabbix-create-action-3](https://www.zhuxiaodong.net/static/images/zabbix-create-action-3.png)
 
 # 使用 Low level discovery 机制自动监控多个 tomcat 进程：
 ---
@@ -133,7 +133,7 @@ systemctl restart zabbix-agent
 
 * 该项目下有 All In One 和 JVM 两个目录，注意请使用 All In One 之下的模板和 python 脚本。
 
-![zabbix-qiueer](http://static.zhuxiaodong.net/blog/static/images/zabbix-qiueer.png)
+![zabbix-qiueer](https://www.zhuxiaodong.net/static/images/zabbix-qiueer.png)
 
 * All In One 下除了普通 JVM 和 Tomcat 的方案之外，还包括了 Mysql Redis Nginx MongoDB MemoryCache 等方案。具体参考[read me](https://github.com/qiueer/zabbix/blob/56a0a5b7743c2684e3426a2dfcc3e6a22ea11fe8/All%20In%20One/readme.md)文档
 
@@ -201,11 +201,11 @@ class JTomcat(object):
 
 由于 tomcat 我选择的使用是 APR 的 I/O 方式，因此这里导入的是 Qiueer-Template JMX Tomcat With IO-APR.xml 和 Qiueer-Template JVM.xml
 
-![zabbix-qiueer-template](http://static.zhuxiaodong.net/blog/static/images/zabbix-qiueer-template.png)
+![zabbix-qiueer-template](https://www.zhuxiaodong.net/static/images/zabbix-qiueer-template.png)
 
 ### step 2：调整之前创建的 Auto registration action，添加上述两个模板的link。
 
-![zabbix-qiueer-action](http://static.zhuxiaodong.net/blog/static/images/zabbix-qiueer-action.png)
+![zabbix-qiueer-action](https://www.zhuxiaodong.net/static/images/zabbix-qiueer-action.png)
 
 ### step 3：在 zabbix agent 的机器上，下载相关的源代码和脚本：
 
@@ -251,9 +251,9 @@ systemctl restart zabbix-agent
 
 上述步骤都完成了之后，我们就能够看到 zabbix portal 当中能够正确的获取到相关的 tomcat 数据，并且是按照 JMX 的端口号进行的分别监控。
 
-![zabbix-qiueer-data1](http://static.zhuxiaodong.net/blog/static/images/zabbix-qiueer-data1.png)
+![zabbix-qiueer-data1](https://www.zhuxiaodong.net/static/images/zabbix-qiueer-data1.png)
 
-![zabbix-qiueer-data2](http://static.zhuxiaodong.net/blog/static/images/zabbix-qiueer-data2.png)
+![zabbix-qiueer-data2](https://www.zhuxiaodong.net/static/images/zabbix-qiueer-data2.png)
 
 如果无法正确的监控到数据，可以按照如下的方式测试：
 

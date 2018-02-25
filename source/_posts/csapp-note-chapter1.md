@@ -10,7 +10,7 @@ toc: true
 
 # 编译链接过程
 
-![compile-link](http://static.zhuxiaodong.net/blog/static/images/compile-link.png)
+![compile-link](https://www.zhuxiaodong.net/static/images/compile-link.png)
 
 * **预处理阶段：**预处理器（cpp）根据以字符#开头的命令，修改原始的C程序。例如#include<stdio.h>命令会使预处理器读取系统的头文件stdio.h，并将其内容直接插入至程序文件中，经过预处理器处理之后得到另外一个C程序，通常以.i作为扩展名的文件。
 

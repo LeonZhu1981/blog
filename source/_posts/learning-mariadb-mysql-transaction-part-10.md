@@ -75,7 +75,7 @@ InnoDB 存储引擎允许用户手工设置非持久性的情况发生，以此�
 
 重做日志除了日志本身之外，还由 log block header 和 log block tailer 两部分组成。重做日志头一共占用了 12 字节，重做日志尾占用 8 字节。因此每个重做日志块实际可以存储的大小为 492 字节。
 
-![redo-log-buffer](http://static.zhuxiaodong.net/blog/static/images/redo-log-buffer.png)
+![redo-log-buffer](https://www.zhuxiaodong.net/static/images/redo-log-buffer.png)
 
 ### 重做日志的格式
 
@@ -120,7 +120,7 @@ InnoDB 存储引擎在启动时不管上次数据库运行时是否正常关闭�
 
 由于 checkpoint 表示已经刷新到磁盘页上的 LSN ，因此在恢复过程中仅需恢复checkpoint开始的日志部分。对于下图中的例子，当数据库在 checkpoint 的 LSN 为 10000 时发生宕机，恢复操作仅恢复 LSN 10000～13000范围内的日志。
 
-![redo-log-recover](http://static.zhuxiaodong.net/blog/static/images/redo-log-recover.png)
+![redo-log-recover](https://www.zhuxiaodong.net/static/images/redo-log-recover.png)
 
 ## undo
 

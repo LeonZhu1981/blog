@@ -15,7 +15,7 @@ tags:
 
 # 我们应用程序的整体架构:
 ---
-![arch](http://static.zhuxiaodong.net/blog/static/images/zhuanzhu-arch.png)
+![arch](https://www.zhuxiaodong.net/static/images/zhuanzhu-arch.png)
 
 > 上述架构只列出了和讨论https相关的部分. 
 
@@ -42,7 +42,7 @@ server {
 基于上述原因, 我们决定在SLB背后的web server上部署nginx, 并将SSL证书放在nginx上进行管理. 
 
 调整之后的架构如下:
-![arch2](http://static.zhuxiaodong.net/blog/static/images/zhuanzhu-arch2.png)
+![arch2](https://www.zhuxiaodong.net/static/images/zhuanzhu-arch2.png)
 
 > Q: 上述架构中nginx是否会有单点失败的问题?
 > A: 不会, 基于成本的考虑, 我们并没有在使用单独的ECS Server部署nginx, 而是将nginx直接部署到了原来的那2台web server上, SLB上的健康检查也调整为check对应的nginx端口是否alive. 具体的设置方式会在下文当中进行介绍.
@@ -54,7 +54,7 @@ server {
 接下来我们会阿里云CDN配置, nginx编译/部署/配置, 阿里云SLB配置, 以及相关的应用程序改动等方面, 逐一讲解完整的https部署过程.
 
 ## Step 1: 从阿里云portal上下载SSL证书.
-![download-ssl](http://static.zhuxiaodong.net/blog/static/images/downloadssl.png)
+![download-ssl](https://www.zhuxiaodong.net/static/images/downloadssl.png)
 
 这里下载的是for nginx格式的证书. 原因是由于在阿里云CDN设置证书时需要使用, 此外我们会使用nginx来管理SSL证书.
 
@@ -66,12 +66,12 @@ xxx.key
 
 ## Step 2: 在阿里云CDN上设置开启https支持.
 * 在阿里云CDN的基本信息中, 找到https安全加速, 点击编辑按钮.
-![aliyun-cdn-config1](http://static.zhuxiaodong.net/blog/static/images/aliyun-cdn-config1.png)
+![aliyun-cdn-config1](https://www.zhuxiaodong.net/static/images/aliyun-cdn-config1.png)
 
 * 使用文本编辑器打开之前下载xxx.pem文件, 将文件的内容copy到证书内容文本框内.(**注意去掉-----END CERTIFICATE-----与-----BEGIN CERTIFICATE-----之间的换行符**)
 
 * 使用文本编辑器打开之前下载xxx.key文件, 将文件的内容copy到私钥文本框内
-![aliyun-cdn-config2](http://static.zhuxiaodong.net/blog/static/images/aliyun-cdn-config2.png)
+![aliyun-cdn-config2](https://www.zhuxiaodong.net/static/images/aliyun-cdn-config2.png)
 
 * 建议跳转类型设置为默认, 这样保证在程序完全切换完成之前兼容性.
 
@@ -85,10 +85,10 @@ xxx.key
 
 在阿里云后台portal中, 添加SLB监听设置: SLB TCP:443 --> Nginx TCP:443
 
-![aliyun-slb-step1.png](http://static.zhuxiaodong.net/blog/static/images/aliyun-slb-step1.png)
+![aliyun-slb-step1.png](https://www.zhuxiaodong.net/static/images/aliyun-slb-step1.png)
 
 设置SLB的健康检查:
-![aliyun-slb-step2.png](http://static.zhuxiaodong.net/blog/static/images/aliyun-slb-step2.png)
+![aliyun-slb-step2.png](https://www.zhuxiaodong.net/static/images/aliyun-slb-step2.png)
 
 > NOTE: 
 > 1. 原有SLB http:80 --> backend server http:port 的监听在完全切换为https之前建议保留, 以确保应用程序的兼容性.
@@ -117,7 +117,7 @@ xxx.key
 
 按照百度地图javascript api的[官方文档](http://lbsyun.baidu.com/index.php?title=jspopular), 只有javascript V2.0版本才支持https, 参考下图:
 
-![baidumap-api-summary](http://static.zhuxiaodong.net/blog/static/images/baidumap-api-summary.png)
+![baidumap-api-summary](https://www.zhuxiaodong.net/static/images/baidumap-api-summary.png)
 
 对于javascript API, 比较关键的是添加query string: **s=1**, 参考[这里](http://lbsyun.baidu.com/index.php?title=jspopular/guide/introduction#Https_.E8.AF.B4.E6.98.8E)
 
@@ -190,10 +190,10 @@ js代码需要调整为:
 ## 使用SSL Lab's进行评测
 
 访问https://www.ssllabs.com/ssltest/index.html, 以下是我们按照上述方式调整之后的得分:
-![ssllab-score](http://static.zhuxiaodong.net/blog/static/images/ssllab-score.png)
+![ssllab-score](https://www.zhuxiaodong.net/static/images/ssllab-score.png)
 
 ## 使用HTTP Security Report进行评测
 访问https://httpsecurityreport.com/, 以下是我们按照上述方式调整之后的得分:
-![http-security-report](http://static.zhuxiaodong.net/blog/static/images/http-security-report.png)
+![http-security-report](https://www.zhuxiaodong.net/static/images/http-security-report.png)
 
 得分并不高, 剩下的几个点需要参考[HTTP Security Best Practice](https://httpsecurityreport.com/best_practice.html)继续优化.

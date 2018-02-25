@@ -41,7 +41,7 @@ tags:
 **重要的区别:**
 1. DV证书的审核速度较快, 由程序完成审核, 一般申请了之后马上就能够完成证书颁发; OV和EV证书审核较慢, 由人工审核, 一般需要数天的时间.
 2. EV证书会在浏览器当中显示公司的信息, 通常被称为绿色地址栏, 以增加用户的信任感. 参考如下访问github时, chrome浏览器的显示方式:
-![EV证书示例](http://static.zhuxiaodong.net/blog/static/images/ev-cert.png)
+![EV证书示例](https://www.zhuxiaodong.net/static/images/ev-cert.png)
 3. EV证书**不支持单个泛域名(*.example.com)或者多个泛域名(*.example1.com, *.example2.com)**, OV和DV证书则支持.
 
 **如何选择?**
@@ -77,11 +77,11 @@ Encrypt就不太适合了, 阿里云的CDN或者SLB要求在云平台上上传�
 
 **强烈不推荐**:
 1. [StartSSL.com](https://www.startssl.com): 详见官网的以下描述:
-![startssl申明](http://static.zhuxiaodong.net/blog/static/images/startssl.png)
+![startssl申明](https://www.zhuxiaodong.net/static/images/startssl.png)
 
 2. [Wosign(沃通)](https://www.wosign.com): 
 [聊聊“沃通/WoSign”的那些破事儿](https://program-think.blogspot.com/2016/09/About-WoSign.html)
-![wosign](http://static.zhuxiaodong.net/blog/static/images/wosign.png)
+![wosign](https://www.zhuxiaodong.net/static/images/wosign.png)
 [Mozilla发布的wosign-issue](https://wiki.mozilla.org/CA:WoSign_Issues)
 [新浪的报道](http://k.sina.cn/article_1772191555_69a17f430190016i6.html?vt=4)
 
@@ -96,6 +96,6 @@ Encrypt就不太适合了, 阿里云的CDN或者SLB要求在云平台上上传�
 
 ### 最终我选了什么?
 阿里云上的GeoTrust DV SSL: 价格便宜, 支持泛域名, 颁发迅速(30 min之内), 最重要的是统一使用了阿里云进行管理.
-![aliyunssl](http://static.zhuxiaodong.net/blog/static/images/aliyunssl.png)
+![aliyunssl](https://www.zhuxiaodong.net/static/images/aliyunssl.png)
 
 后续内容, 请继续参考下一篇[文章](http://www.zhuxiaodong.net/2016/how-to-switch-your-website-to-https-on-aliyun-part2/)

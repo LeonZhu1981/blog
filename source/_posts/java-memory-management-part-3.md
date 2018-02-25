@@ -18,7 +18,7 @@ Serial收集器是最基本、发展历史最悠久的收集器，曾经（在JD
 "Stop The World"这个名字也许听起来很酷，但这项工作实际上是由虚拟机在后台自动发起和自动完成的，在用户不可见的情况下把用户正常工作的线程全部停掉，这对很多应用来说都是难以接受的。
 
 下面的图例解释了Serial收集器、Serial Old收集器在新生代和老年代是如何工作的。
-![serial-collector](http://static.zhuxiaodong.net/blog/static/images/serial-collector.png)
+![serial-collector](https://www.zhuxiaodong.net/static/images/serial-collector.png)
 
 Serial收集器是虚拟机运行在Client模式下的默认新生代收集器，因为有着优于其它收集器的地方：简单而高效（与其他收集器的单线程比），对于限定单个CPU的环境来说，Serial收集器由于没有线程交互的开销，专心做垃圾收集自然可以获得最高的单线程收集效率。
 
@@ -30,7 +30,7 @@ Serial收集器是虚拟机运行在Client模式下的默认新生代收集器�
 ParNew收集器其实就是Serial收集器的多线程版本，除了使用多条线程进行垃圾收集之外，其余行为包括Serial收集器可用的所有控制参数（例如：-XX:SurvivorRatio、-XX:PretenureSizeThreshold、-XX:HandlePromotionFailure等）、收集算法、Stop The World、对象分配规则、回收策略等都与Serial收集器完全一样，在实现上，这两种收集器也共用了相当多的代码。
 
 下面的图例解释了ParNew收集器、Serial Old收集器在新生代和老年代是如何工作的。
-![parnew-collector](http://static.zhuxiaodong.net/blog/static/images/parnew-collector.png)
+![parnew-collector](https://www.zhuxiaodong.net/static/images/parnew-collector.png)
 
 ParNew收集器是许多运行在Server模式下首选的**新生代**收集器，原因是只有ParNew收集器才能够配合CMS收集器工作。
 
@@ -56,7 +56,7 @@ Parallel Scavenge收集器的目标是达成一个可控的吞吐量（Throughpu
 
 Serial Old是Serial收集器的老年代版本，它同样是一个单线程收集器，使用“标记-整理”算法。这个收集器的主要意义也是在于给Client模式下的虚拟机使用。如果在Server模式下，那么它主要还有两大用途：一种用途是在JDK 1.5以及之前的版本中与Parallel Scavenge收集器搭配使用，另一种用途就是作为CMS收集器的后备预案，在并发收集发生Concurrent Mode Failure时使用。
 
-![serial-old-collector](http://static.zhuxiaodong.net/blog/static/images/serial-old-collector.png)
+![serial-old-collector](https://www.zhuxiaodong.net/static/images/serial-old-collector.png)
 
 # Parallel Old收集器
 ---
@@ -67,7 +67,7 @@ Parallel Old是Parallel Scavenge收集器的老年代版本，使用多线程和
 
 在注重吞吐量以及CPU资源敏感的场合，都可以优先考虑Parallel Scavenge加Parallel Old收集器。
 
-![parallel-old-collector](http://static.zhuxiaodong.net/blog/static/images/parallel-old-collector.png)
+![parallel-old-collector](https://www.zhuxiaodong.net/static/images/parallel-old-collector.png)
 
 # CMS收集器（Concurrent Mark Sweep）
 ---
@@ -85,7 +85,7 @@ CMS（Concurrent Mark Sweep）收集器是一种以获取最短回收停顿时�
 
 并发标记和并发清除的过程是可以和用户线程一起并发执行的。
 
-![cms-collector](http://static.zhuxiaodong.net/blog/static/images/cms-collector.png)
+![cms-collector](https://www.zhuxiaodong.net/static/images/cms-collector.png)
 
 
 ## 缺点：
@@ -116,7 +116,7 @@ HotspotJDK1.7后提供的面向大内存(Heap区数G到数10G)、多核系统的
 
 G1收集器之所以能建立可预测的停顿时间模型，是因为它可以有计划地避免在整个Java堆中进行全区域的垃圾收集。G1跟踪各个Region里面的垃圾堆积的价值大小（回收所获得的空间大小以及回收所需时间的经验值），在后台维护一个优先列表，每次根据允许的收集时间，优先回收价值最大的Region（这也就是Garbage-First名称的来由）。这种使用Region划分内存空间以及有优先级的区域回收方式，保证了G1收集器在有限的时间内可以获取尽可能高的收集效率。
 
-![g1-collector](http://static.zhuxiaodong.net/blog/static/images/g1-collector.png)
+![g1-collector](https://www.zhuxiaodong.net/static/images/g1-collector.png)
 
 更多的关于G1的内容，可以参考[这里](https://liuzhengyang.github.io/2017/06/07/garbage-first-collector/)
 

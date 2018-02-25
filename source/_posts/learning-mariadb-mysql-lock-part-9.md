@@ -65,7 +65,7 @@ InnoDB 存储引擎实现了如下两种标准的行级锁：
 
 此外， InnoDB 存储引擎支持多粒度（ granular ）锁定，这种锁定允许事务在航迹上的锁和表级上的锁同时存在。为了支持在不同粒度上进行加锁操作， InnoDB 存储引擎支持一种额外的锁方式，称之为意向锁（ Intention Lock ），是将锁定的对象分为多个层次，能够对事务在更细粒度上进行加锁。
 
-![lock-object](http://static.zhuxiaodong.net/blog/static/images/lock-object.png)
+![lock-object](https://www.zhuxiaodong.net/static/images/lock-object.png)
 
 若将上锁的对象看成一棵树，那么对最下层的对象上锁，也就是对最细粒度的对象进行上锁，那么首先需要对粗粒度的对象上锁。如果需要对页上的记录 r 进行上 X 锁，那么分别需要对数据库 A 、表、页上意向锁 IX ，最后对记录 r 上 X 锁。若其中任何一个部分导致等待，那么该操作需要等待粗粒度锁的完成。举例来说，在对记录 r 加 X 锁之前，已经有事务对表1进行了 S 表锁，那么表1上已存在 S 锁，之后事务需要对记录 r 在表1上加上 IX ，由于不兼容，所以该事务需要等待表锁操作的完成。
 
@@ -686,11 +686,11 @@ InnoDB 存储引擎采用了一种更为主动的死锁检测方式：等待图�
 
 事务和锁的状态图如下所示：
 
-![t-lock-state-graph](http://static.zhuxiaodong.net/blog/static/images/t-lock-state-graph.png)
+![t-lock-state-graph](https://www.zhuxiaodong.net/static/images/t-lock-state-graph.png)
 
 在 Transaction Wait Lists 中可以看到共有4个事务 t1 、 t2 、 t3 、 t4 ，故在 wait-for graph 中应有4个节点。而事务 t2 对 row1 占用 x 锁，事务 t1 对 row2 占用 s 锁。事务 t1 需要等待事务 t2 中 row1 的资源，因此在 wait-for graph 中有条边从节点 t1 指向节点 t2 。事务 t2 需要等待事务 t1 、 t4 所占用的 row2 对象，故而存在节点 t2 到节点 t1、t4 的边。同样，存在节点 t3 到节点 t1、t2、t4 的边，因此最终的 wait-for graph 如下图所示：
 
-![wait-for-graph](http://static.zhuxiaodong.net/blog/static/images/wait-for-graph.png)
+![wait-for-graph](https://www.zhuxiaodong.net/static/images/wait-for-graph.png)
 
 可以发现存在回路（t1，t2），因此存在死锁。
 
