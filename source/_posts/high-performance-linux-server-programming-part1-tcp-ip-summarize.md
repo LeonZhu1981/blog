@@ -14,7 +14,7 @@ toc: true
 1. [TCP/IP详解 卷1：协议](http://book.douban.com/subject/1088054/)
 ![TCP/IP详解 卷1：协议](http://img3.doubanio.com/lpic/s1543906.jpg)
 2. [UNIX环境高级编程(第3版)](http://book.douban.com/subject/25900403/)
-![UNIX环境高级编程(第3版)](http://img3.douban.com/lpic/s4436543.jpg)
+![UNIX环境高级编程(第3版)](https://img1.doubanio.com/lpic/s28284137.jpg)
 3. [UNIX网络编程 卷1：套接字联网API](http://book.douban.com/subject/4859464/)
 ![UNIX网络编程 卷1：套接字联网API](http://img3.doubanio.com/lpic/s4437258.jpg)
 
