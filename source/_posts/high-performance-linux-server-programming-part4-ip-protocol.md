@@ -4,7 +4,7 @@ categories: programming
 tags:
 - network
 - tcp/ip
-- ip protocal
+- ip protocol
 - 高性能Linux服务器编程
 ---
 
@@ -22,8 +22,8 @@ tags:
 
 **无状态**:
 定义: 无状态(stateless)是指IP通信双方不同步传输数据的状态信息, 所有数据报的发送, 传输, 接收都是相互独立并且没有上下文关系的.
-优点: 简单/高效, 不需要为了保持通信状态而使用额外的内核资源, 也不需要在数据报当中包含额外的状态信息, 从而减少了包的大小. 
-缺点: 无状态会导致数据报的乱序和重复发送. 例如第N个IP数据报会比N+1个IP数据报后到达接收端, 或者同一个IP数据报会多次到达同一个接收端. 
+优点: 简单/高效, 不需要为了保持通信状态而使用额外的内核资源, 也不需要在数据报当中包含额外的状态信息, 从而减少了包的大小.
+缺点: 无状态会导致数据报的乱序和重复发送. 例如第N个IP数据报会比N+1个IP数据报后到达接收端, 或者同一个IP数据报会多次到达同一个接收端.
   * 传输层的TCP协议是有状态/面向连接的协议, 它能够自己来处理乱序的, 重复的IP数据报, 以确保传输的内容是绝对有序和可靠的.
   * IP数据报头部提供了一个标识字段用以唯一标识一个IP数据报, 但它是被用来处理IP分片和重组的, 而不是用来指示接收顺序的.
 常见的无状态网络协议: UDP, Http.
@@ -34,7 +34,7 @@ tags:
 
 **不可靠**:
 定义: IP协议不能保证IP数据报准确地到达接收端, 它只是承诺尽最大努力(best effort).
-导致IP数据报无法到达接收端的原因/场景: 
+导致IP数据报无法到达接收端的原因/场景:
   * 中转路由器发现IP数据报的TTL为0, 会直接丢弃掉, 并返回一个ICMP的错误消息(超时错误)给发送端.
   * 接收端发现IP数据报的内容不正确(通过CRC校验机制), 会直接丢弃掉, 并返回一个ICMP的错误消息(IP头部参数错误)给发送端.
 发送端的IP模块一旦检测到IP数据报发送失败, 就通知上层协议发送失败,而不会试图重传.因此,使用IP服务的上层协议(比如TCP协议)需要自己实现数据确认, 超时重传等机制以达到可靠传输的目的.
@@ -125,7 +125,7 @@ IP 127.0.0.1.56616 > 127.0.0.1.telnet: Flags [S], seq 461096030, win 43690, opti
 >        | 0 | F | F |
 >        +---+---+---+
 
-由上述信息得出的结论是: 
+由上述信息得出的结论是:
 * telnet服务选择使用具有**最小延时**的服务.
 * telnet服务默认使用的传输层协议是TCP协议.
 * 这个IP数据报没有被分片, 因为它没有携带任何应用程序数据.
@@ -157,7 +157,7 @@ IP 127.0.0.1.56616 > 127.0.0.1.telnet: Flags [S], seq 461096030, win 43690, opti
 >           000 - Routine
 
 > The use of the Delay, Throughput, and Reliability indications may increase the cost (in some sense) of the service.  In many networks better performance for one of these parameters is coupled with worse performance on another.  Except for very unusual cases at most two of these
-> three indications should be set. 
+> three indications should be set.
 > The type of service is used to specify the treatment of the datagram during its transmission through the internet system.  Example mappings of the internet type of service to the actual service provided on networks such as AUTODIN II, ARPANET, SATNET, and PRNET is given in "Service Mappings".
 
 由上述信息得出的结论是:
@@ -195,7 +195,7 @@ sudo tcpdump -ntv icmp
 
 **step 2**: 开启另外一个终端, ping linux VM, 通过**-s**参数指定发送数据包的长度为1473(设置为1473的原因为强制IP数据报分片, 1500[mtu] - 20[IP header length] - 8[icmp header length] = 1472, 再+1 = 1473).
 ```
-ping -s 1473 10.211.5.4 
+ping -s 1473 10.211.5.4
 ```
 
 **tcpdump获取到的前2个数据报文为**:
@@ -248,7 +248,7 @@ default         gateway         0.0.0.0         UG    100    0        0 eth0
 * Destination: 表示目标网络或主机.
 * Gateway: 网关地址. * 表示目标和本机在同一个网络, 不需要进行路由.
 * Genmask: 子网掩码.
-* Flags: 路由标志项, 常见的包括: 
+* Flags: 路由标志项, 常见的包括:
   * U (route is up)
   * H (target is a host)
   * G (use gateway)
@@ -316,7 +316,7 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 192.168.122.0   0.0.0.0         255.255.255.0   U     0      0        0 virbr0
 ```
 
-NOTE: 
+NOTE:
 1. **使用route命令只能够临时修改路由表, 重启了之后会丢失修改信息.**
 2. 如果需要持久化路由信息, 参考:
 [http://www.cyberciti.biz/faq/centos-linux-add-route-command/](http://www.cyberciti.biz/faq/centos-linux-add-route-command/)
@@ -332,7 +332,7 @@ NOTE:
 ---
 通常的情况下, 主机只负责IP数据报的接收和发送, 而专门的IP数据报转发的功能则交给路由器来完成.
 
-如果需要设置主机打开IP转发的功能, 可以参考如下的方式: 
+如果需要设置主机打开IP转发的功能, 可以参考如下的方式:
 **Linux**:
 ```
 echo 1>/proc/sys/net/ipv4/ip_forward
@@ -405,5 +405,3 @@ IPv6头部由**40字节的固定头部**和**可变长的扩展头部**组成.
 2. 扩展头部结构:
 可变长的扩展头部使得IPv6能支持更多的选项,并且很便于将来的扩展需要.它的长度可以是0,表示数据报没使用任何扩展头部.一个数据报可以包含多个扩展头部,每个扩展头部的类型由前一个头部(固定头部或扩展头部)中的下一个报头字段指定.
 ![ipv6-extend-header](https://www.zhuxiaodong.net/static/images/ipv6-extend-header.jpg)
-
-
