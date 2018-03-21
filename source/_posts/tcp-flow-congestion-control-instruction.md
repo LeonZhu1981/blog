@@ -90,6 +90,32 @@ IP 192.168.1.122.64543 > 192.168.1.123.8000: Flags [.],  ack 1,  win 4105,  opti
 
 wscale 即为窗口扩大选项的大小。可以看到发送端的值为 5 ， 接收端的值为 7 。
 
+**窗口扩大选项的值是如何动态计算出来的？**
+
+窗口扩大选项的值是基于内核接收缓冲区的最大值（ maximum size of receive buffer ）来动态计算出的，maximum size of receive buffer 的值可以通过 net.ipv4.tcp_rmem 查看到，最后一列的 4194304 即表示接收缓冲区的最大值。
+
+```
+sysctl -n net.ipv4.tcp_rmem
+4096    87380   4194304
+```
+
+下面的代码描述了如何根据 maximum size of receive buffer 计算窗口扩大选项的大小。
+
+```
+if (wscale_ok) {
+       space = max_t(u32, sysctl_tcp_rmem[2], sysctl_rmem_max);
+       while (space > 65535 && (*rcv_wscale) < 14) {
+               space >>= 1;
+               (*rcv_wscale)++;
+       }
+}
+```
+
+根据上述算法，可以看到在 tcp_rmem 的最大值为 4194304 的情况下，窗口扩大选项的值为：7。
+
+ref：https://access.redhat.com/solutions/29455
+
+
 **窗口扩大选项的具体值是如何影响接收窗口的最大值的？**
 
 还是上述例子，发送端的 wscale 为 5，那么 rwnd 的值为： ((2 ^ 16) x (2 ^ 5)) / 1024 = 2048 kb 。 另外需要注意的是，虽然 TCP option 规定 length 占用 1 个字节，理论上来说可以设置的最大值为 2 ^ 8 = 255 ，但是实际能够设置的范围为：0 ~ 14 ，这意味着 rwnd 的最大值为： (2 ^ 16) x ( 2 ^ 14) = 1,073,741,824 byte，也就是 1GB 。此外，rwnd 也不能超过 sequence no ， 也就是 2 ^ 32 (seq 在 TCP header 中占用4个字节)。
@@ -335,9 +361,16 @@ TCP BBR 致力于解决两个问题：
 更多的讨论可以参考：
 https://www.zhihu.com/question/53559433
 
-另外，如果你想要在低于 4.9 的 Linux 上进行尝鲜，可以参考这篇文章：
+另外，如果你想要在低于 4.9 的 Linux 上进行尝鲜，可以参考这2篇文章：
+https://www.vultr.com/docs/how-to-deploy-google-bbr-on-centos-7
 https://github.com/iMeiji/shadowsocks_install/wiki/%E5%BC%80%E5%90%AFTCP-BBR%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E7%AE%97%E6%B3%95
 
+# What's difference between flow control and congestion control
+---
+
+如下的这篇文章介绍得非常详细，值得一看。
+
+https://techdifferences.com/difference-between-flow-control-and-congestion-control.html
 
 # ref
 ---
