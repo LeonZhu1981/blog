@@ -106,6 +106,10 @@ yum --nogpgcheck localinstall packagename.arch.rpm
 
 [**ascii码流程图工具**](http://asciiflow.com/)
 
+[**SLA 可靠性计算器**](https://dastergon.github.io/availability-calculator/)
+
+[**Windows 效率工具收集**](https://www.liutf.com/posts/3720794851.html)
+
 ## windows效率工具:
 ---
 [**listary**](http://www.listary.com/): windows下堪比Alfred的神器.
