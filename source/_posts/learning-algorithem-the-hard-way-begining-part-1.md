@@ -12,7 +12,7 @@ tags:
 
 ---
 
-![outliers](https://img3.doubanio.com/view/ark_article_cover/retina/public/10580943.jpg?v=0)
+![outliers](https://www.zhuxiaodong.net/static/images/outliers.png?v=0)
 
 根据[**《异类-不一样的成功启示录》**](https://read.douban.com/ebook/10580943/)一书中的描述，要想在任何一个领域当中称为专家，都必须经过 10000 小时的刻意练习。具体的方法包括：
 
