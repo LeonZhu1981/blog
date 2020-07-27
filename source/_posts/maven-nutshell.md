@@ -64,7 +64,7 @@ resouces
 ## 自动创建目录结构: 带参数的方式
 
 ```
-mvn archetype:generate -DgroupId=com.huijinhang.mavendemo04 -DartifactId=maven04-model -Dversion=1.0.0-SNAPSHOT -Dpackage=com.huijinhang.mavendemo04.service
+mvn archetype:generate -DgroupId=com.sotao.mavendemo04 -DartifactId=maven04-model -Dversion=1.0.0-SNAPSHOT -Dpackage=com.sotao.mavendemo04.service
 ```
 参数说明:
 * -DgroupId=组织名, 公司网址的反写+项目名
@@ -92,7 +92,7 @@ mvn archetype:generate
 	        <manifest>
 	          <addClasspath>true</addClasspath>
 	          <classpathPrefix>lib/</classpathPrefix>
-	          <mainClass>com.huijinhang.mavendemo04.service.App</mainClass>
+	          <mainClass>com.sotao.mavendemo04.service.App</mainClass>
 	        </manifest>
 	      </archive>
 	    </configuration>
@@ -194,7 +194,7 @@ vim /usr/local/Cellar/maven/3.3.9/libexec/conf/settings.xml
   <modelVersion>4.0.0</modelVersion>
   
   <!--反写的公司网址 + 项目名-->
-  <groupId>com.huijinhang.mavendemo</groupId>
+  <groupId>com.sotao.mavendemo</groupId>
   <!--项目名 + 模块名-->
   <artifactId>mavendemo-model</artifactId>
   <!--
